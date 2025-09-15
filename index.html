@@ -85,7 +85,7 @@ button { margin-top:5px; }
   </div>
 </div>
 
-<!-- Модальные окна -->
+<!-- Модалки -->
 <div id="cart-modal" class="modal">
   <div class="modal-content">
     <span class="close" id="close-cart">&times;</span>
@@ -99,11 +99,11 @@ button { margin-top:5px; }
 <div id="login-modal" class="modal">
   <div class="modal-content">
     <span class="close" id="close-login">&times;</span>
-    <h2>Вход / Регистрация</h2>
-    <input id="reg-email" type="email" placeholder="Email">
-    <input id="reg-pass" type="password" placeholder="Пароль">
-    <button onclick="register()">Зарегистрироваться</button>
-    <button onclick="login()">Войти</button>
+    <h2>Регистрация / Вход</h2>
+    <input id="reg-email" type="email" placeholder="Email"><br>
+    <input id="reg-pass" type="password" placeholder="Пароль"><br>
+    <button id="register-btn">Зарегистрироваться</button>
+    <button id="login-submit-btn">Войти</button>
     <p id="user-status">Вы не вошли</p>
   </div>
 </div>
@@ -134,38 +134,7 @@ button { margin-top:5px; }
 // ===== Пользователи =====
 const adminEmail = "annaaguara@gmail.com";
 let users = JSON.parse(localStorage.getItem('users')||'{}');
-let currentUser = localStorage.getItem('currentUser')||null;
-
-function saveUsers(){ localStorage.setItem('users',JSON.stringify(users)); }
-function register(){ 
-  let email=document.getElementById('reg-email').value.trim();
-  let pass=document.getElementById('reg-pass').value.trim();
-  if(!email||!pass){ alert("Введите email и пароль!"); return; }
-  if(users[email]){ alert("Пользователь существует!"); return; }
-  users[email]={password:pass}; saveUsers(); alert("Регистрация успешна!"); login(); 
-}
-function login(){ 
-  let email=document.getElementById('reg-email').value.trim();
-  let pass=document.getElementById('reg-pass').value.trim();
-  if(users[email]&&users[email].password===pass){
-    currentUser=email; localStorage.setItem('currentUser',email); updateStatus(); closeModal('login-modal');
-  } else alert("Неверный логин или пароль!");
-}
-function logout(){ currentUser=null; localStorage.removeItem('currentUser'); updateStatus(); }
-function updateStatus(){
-  const status=document.getElementById('user-status');
-  const userButtons=document.getElementById('user-buttons');
-  const adminBtn=document.getElementById('admin-btn');
-  if(currentUser){
-    status.innerHTML=`Вы вошли как: <b>${currentUser}</b>`;
-    userButtons.innerHTML=`<span style="color:#fff;">${currentUser}</span> <button onclick="logout()">Выйти</button>`;
-    if(currentUser===adminEmail) adminBtn.style.display='block';
-  } else { 
-    status.innerText="Вы не вошли"; 
-    userButtons.innerHTML=`<button onclick="openModal('login-modal')">Вход / Регистрация</button>`;
-    adminBtn.style.display='none';
-  }
-}
+let currentUser = localStorage.getItem('currentUser') || null;
 
 // ===== Модалки =====
 function openModal(id){ document.getElementById(id).style.display='block'; }
@@ -183,6 +152,50 @@ window.onclick = function(event){
   });
 }
 
-// ===== Данные =====
-let categories = JSON.parse(localStorage.getItem('categories')||'[]');
-let
+// ===== Обновление статуса =====
+function updateStatus(){
+  const status = document.getElementById('user-status');
+  const userButtons = document.getElementById('user-buttons');
+  const adminBtn = document.getElementById('admin-btn');
+  if(currentUser){
+    status.innerHTML=`Вы вошли как: <b>${currentUser}</b>`;
+    userButtons.innerHTML=`<span style="color:#fff;">${currentUser}</span> <button onclick="logout()">Выйти</button>`;
+    if(currentUser===adminEmail) adminBtn.style.display='block';
+  } else {
+    status.innerText="Вы не вошли";
+    userButtons.innerHTML=`<button onclick="openModal('login-modal')">Вход / Регистрация</button>`;
+    adminBtn.style.display='none';
+  }
+}
+updateStatus();
+
+// ===== Регистрация и вход =====
+document.getElementById('register-btn').onclick = function(){
+  const email=document.getElementById('reg-email').value.trim();
+  const pass=document.getElementById('reg-pass').value.trim();
+  if(!email||!pass){ alert("Введите email и пароль"); return; }
+  if(users[email]){ alert("Пользователь уже существует"); return; }
+  users[email]={password:pass};
+  localStorage.setItem('users',JSON.stringify(users));
+  alert("Регистрация успешна");
+  loginUser(email);
+};
+document.getElementById('login-submit-btn').onclick = function(){
+  const email=document.getElementById('reg-email').value.trim();
+  const pass=document.getElementById('reg-pass').value.trim();
+  if(users[email]&&users[email].password===pass) loginUser(email);
+  else alert("Неверный логин или пароль");
+};
+function loginUser(email){
+  currentUser=email;
+  localStorage.setItem('currentUser',currentUser);
+  updateStatus();
+  closeModal('login-modal');
+}
+function logout(){
+  currentUser=null;
+  localStorage.removeItem('currentUser');
+  updateStatus();
+}
+
+//
