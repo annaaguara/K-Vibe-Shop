@@ -103,6 +103,7 @@ input,select{width:100%;padding:8px;margin:5px 0;border-radius:8px;border:1px so
 </div>
 
 <script>
+// ===== Данные =====
 const adminEmail="annaaguara@gmail.com";
 let users=JSON.parse(localStorage.getItem('users')||'{}');
 let currentUser=localStorage.getItem('currentUser')||null;
@@ -110,73 +111,13 @@ let categories=JSON.parse(localStorage.getItem('categories')||'[]');
 let products=JSON.parse(localStorage.getItem('products')||'[]');
 let cart=JSON.parse(localStorage.getItem('cart')||'[]');
 
-const iconOptions=[
-"https://cdn-icons-png.flaticon.com/512/1055/1055646.png","https://cdn-icons-png.flaticon.com/512/1055/1055648.png",
-"https://cdn-icons-png.flaticon.com/512/1055/1055650.png","https://cdn-icons-png.flaticon.com/512/1055/1055652.png",
-"https://cdn-icons-png.flaticon.com/512/1055/1055654.png","https://cdn-icons-png.flaticon.com/512/1055/1055656.png",
-"https://cdn-icons-png.flaticon.com/512/1055/1055658.png","https://cdn-icons-png.flaticon.com/512/1055/1055660.png",
-"https://cdn-icons-png.flaticon.com/512/1055/1055662.png","https://cdn-icons-png.flaticon.com/512/1055/1055664.png",
-"https://cdn-icons-png.flaticon.com/512/1055/1055666.png","https://cdn-icons-png.flaticon.com/512/1055/1055668.png",
-"https://cdn-icons-png.flaticon.com/512/1055/1055670.png","https://cdn-icons-png.flaticon.com/512/1055/1055672.png",
-"https://cdn-icons-png.flaticon.com/512/1055/1055674.png","https://cdn-icons-png.flaticon.com/512/1055/1055676.png",
-"https://cdn-icons-png.flaticon.com/512/1055/1055678.png","https://cdn-icons-png.flaticon.com/512/1055/1055680.png",
-"https://cdn-icons-png.flaticon.com/512/1055/1055682.png","https://cdn-icons-png.flaticon.com/512/1055/1055684.png",
-"https://cdn-icons-png.flaticon.com/512/1055/1055686.png","https://cdn-icons-png.flaticon.com/512/1055/1055688.png",
-"https://cdn-icons-png.flaticon.com/512/1055/1055690.png","https://cdn-icons-png.flaticon.com/512/1055/1055692.png",
-"https://cdn-icons-png.flaticon.com/512/1055/1055694.png","https://cdn-icons-png.flaticon.com/512/1055/1055696.png",
-"https://cdn-icons-png.flaticon.com/512/1055/1055698.png","https://cdn-icons-png.flaticon.com/512/1055/1055700.png",
-"https://cdn-icons-png.flaticon.com/512/1055/1055702.png","https://cdn-icons-png.flaticon.com/512/1055/1055704.png",
-"https://cdn-icons-png.flaticon.com/512/1055/1055706.png","https://cdn-icons-png.flaticon.com/512/1055/1055708.png",
-"https://cdn-icons-png.flaticon.com/512/1055/1055710.png","https://cdn-icons-png.flaticon.com/512/1055/1055712.png",
-"https://cdn-icons-png.flaticon.com/512/1055/1055714.png","https://cdn-icons-png.flaticon.com/512/1055/1055716.png",
-"https://cdn-icons-png.flaticon.com/512/1055/1055718.png","https://cdn-icons-png.flaticon.com/512/1055/1055720.png",
-"https://cdn-icons-png.flaticon.com/512/1055/1055722.png","https://cdn-icons-png.flaticon.com/512/1055/1055724.png"
-];
+// Иконки (40 штук)
+const iconOptions=[];
+for(let i=1;i<=40;i++){
+    iconOptions.push(`https://cdn-icons-png.flaticon.com/512/${1000+i}/${1000+i}.png`);
+}
 
-// ===== Функции работы модалок и кнопок =====
-function openModal(id){document.getElementById(id).style.display='block';}
-function closeModal(id){document.getElementById(id).style.display='none';}
-document.getElementById('login-btn').onclick=()=>openModal('login-modal');
-document.getElementById('cart-btn').onclick=()=>{renderCart(); openModal('cart-modal');};
-document.getElementById('admin-btn').onclick=()=>{populateProdCatSelect(); setupIconSelect('new-cat-icons'); setupIconSelect('new-prod-icons'); renderAdminCategories(); renderAdminProducts(); openModal('admin-modal');};
-document.getElementById('close-login').onclick=()=>closeModal('login-modal');
-document.getElementById('close-cart').onclick=()=>closeModal('cart-modal');
-document.getElementById('close-admin').onclick=()=>closeModal('admin-modal');
-window.onclick=function(e){['login-modal','cart-modal','admin-modal'].forEach(id=>{if(e.target==document.getElementById(id)) closeModal(id);});}
-
-// ===== Пользовательская регистрация/вход =====
-function updateStatus(){
-const status=document.getElementById('user-status');
-const userButtons=document.getElementById('user-buttons');
-const adminBtn=document.getElementById('admin-btn');
-if(currentUser){
-status.innerHTML=`Вы вошли как: <b>${currentUser}</b>`;
-userButtons.innerHTML=`<span style="color:#fff;">${currentUser}</span> <button onclick="logout()">Выйти</button>`;
-adminBtn.style.display=(currentUser===adminEmail)?'block':'none';
-} else {
-status.innerText="Вы не вошли";
-userButtons.innerHTML=`<button onclick="openModal('login-modal')">Вход / Регистрация</button>`;
-adminBtn.style.display='none';
-}}
-updateStatus();
-
-document.getElementById('register-btn').onclick=function(){
-const email=document.getElementById('reg-email').value.trim();
-const pass=document.getElementById('reg-pass').value.trim();
-if(!email||!pass){alert("Введите email и пароль");return;}
-if(users[email]){alert("Пользователь уже существует");return;}
-users[email]={password:pass}; localStorage.setItem('users',JSON.stringify(users)); loginUser(email);
-};
-document.getElementById('login-submit-btn').onclick=function(){
-const email=document.getElementById('reg-email').value.trim();
-const pass=document.getElementById('reg-pass').value.trim();
-if(users[email]&&users[email].password===pass) loginUser(email);
-else alert("Неверный логин или пароль");
-};
-function loginUser(email){currentUser=email;localStorage.setItem('currentUser',currentUser);updateStatus();closeModal('login-modal');}
-function logout(){currentUser=null;localStorage.removeItem('currentUser');updateStatus();}
-
-// ===== Начальные данные =====
+// ===== Инициализация категорий и товаров =====
 if(categories.length===0){
 categories=[
 {name:"Сумки",icon:iconOptions[0]},
@@ -193,10 +134,10 @@ products=[
 ];
 }
 
-// ===== Функции отображения =====
+// ===== Отображение =====
 function renderCategories(){
 const container=document.getElementById('categories'); container.innerHTML='';
-categories.forEach((cat)=>{
+categories.forEach(cat=>{
 const div=document.createElement('div'); div.className='category';
 const img=document.createElement('img'); img.src=cat.icon; div.appendChild(img);
 const name=document.createElement('h3'); name.innerText=cat.name; div.appendChild(name);
@@ -207,7 +148,7 @@ container.appendChild(div);
 
 function renderProducts(filter=null){
 const container=document.getElementById('products-list'); container.innerHTML='';
-products.forEach((p)=>{
+products.forEach(p=>{
 if(filter && p.category!==filter) return;
 const div=document.createElement('div'); div.className='product';
 const img=document.createElement('img'); img.src=p.icon; div.appendChild(img);
@@ -220,53 +161,133 @@ container.appendChild(div);
 });
 }
 
-function filterProducts(catName){renderProducts(catName);}
-
+// ===== Корзина =====
+function saveCart(){localStorage.setItem('cart',JSON.stringify(cart)); renderCart();}
 function renderCart(){
-const cartDiv=document.getElementById('cart-items');
-const totalDiv=document.getElementById('cart-total');
-cartDiv.innerHTML='';
+const cartDiv=document.getElementById('cart-items'); const totalDiv=document.getElementById('cart-total'); cartDiv.innerHTML='';
 if(cart.length===0){cartDiv.innerText="Корзина пуста";totalDiv.innerText="";document.getElementById('cart-count').innerText=0;return;}
-let total=0;
-cart.forEach((item,i)=>{
+let total=0; cart.forEach((item,i)=>{
 const div=document.createElement('div');
 div.innerHTML=`${item.name} - ${item.price} ₽ <button class="delete-btn">x</button>`;
 div.querySelector('button').onclick=()=>{cart.splice(i,1);saveCart();};
 cartDiv.appendChild(div);
 total+=item.price;
 });
-totalDiv.innerText="Итого: "+total+" ₽";
-document.getElementById('cart-count').innerText=cart.length;
+totalDiv.innerText="Итого: "+total+" ₽"; document.getElementById('cart-count').innerText=cart.length;
 }
-
-function saveCart(){localStorage.setItem('cart',JSON.stringify(cart)); renderCart();}
 function checkout(){if(cart.length===0){alert("Корзина пуста!");return;} alert("Оформление заказа: "+cart.map(i=>i.name).join(", ")); cart=[]; saveCart(); closeModal('cart-modal');}
 
+// ===== Фильтр =====
+function filterProducts(catName){renderProducts(catName);}
+
+// ===== Модалки =====
+function openModal(id){document.getElementById(id).style.display='block';}
+function closeModal(id){document.getElementById(id).style.display='none';}
+document.getElementById('login-btn').onclick=()=>openModal('login-modal');
+document.getElementById('cart-btn').onclick=()=>{renderCart(); openModal('cart-modal');};
+document.getElementById('close-login').onclick=()=>closeModal('login-modal');
+document.getElementById('close-cart').onclick=()=>closeModal('cart-modal');
+document.getElementById('admin-btn').onclick=()=>openModal('admin-modal');
+document.getElementById('close-admin').onclick=()=>closeModal('admin-modal');
+window.onclick=function(e){['login-modal','cart-modal','admin-modal'].forEach(id=>{if(e.target==document.getElementById(id)) closeModal(id);});}
+
 // ===== Админка =====
-function populateProdCatSelect(){
-const sel=document.getElementById('new-prod-cat'); sel.innerHTML='';
-categories.forEach(c=>{let opt=document.createElement('option'); opt.value=c.name; opt.innerText=c.name; sel.appendChild(opt);});
+function renderAdminCategories(){
+const container=document.getElementById('admin-categories'); container.innerHTML='';
+categories.forEach((cat,i)=>{
+const div=document.createElement('div'); div.innerText=cat.name;
+const btn=document.createElement('button'); btn.className='delete-btn'; btn.innerText='x';
+btn.onclick=()=>{categories.splice(i,1); saveCategories();};
+div.appendChild(btn); container.appendChild(div);
+});
+const select=document.getElementById('new-prod-cat'); select.innerHTML='';
+categories.forEach(cat=>{const opt=document.createElement('option'); opt.value=cat.name; opt.innerText=cat.name; select.appendChild(opt);});
 }
 
-function setupIconSelect(containerId){
-const container=document.getElementById(containerId); container.innerHTML='';
-iconOptions.forEach(icon=>{
-const img=document.createElement('img'); img.src=icon;
-img.onclick=()=>{container.querySelectorAll('img').forEach(i=>i.classList.remove('selected')); img.classList.add('selected');};
+function saveCategories(){localStorage.setItem('categories',JSON.stringify(categories)); renderCategories(); renderAdminCategories();}
+
+function addCategory(){
+const name=document.getElementById('new-cat-name').value;
+const icon=document.querySelector('#new-cat-icons img.selected')?.src||iconOptions[0];
+if(!name) return alert("Введите название категории");
+categories.push({name,icon});
+saveCategories();
+document.getElementById('new-cat-name').value='';
+document.querySelectorAll('#new-cat-icons img').forEach(img=>img.classList.remove('selected'));
+}
+
+function renderAdminIcons(){
+const container=document.getElementById('new-cat-icons');
+iconOptions.forEach(url=>{
+const img=document.createElement('img'); img.src=url;
+img.onclick=()=>{document.querySelectorAll('#new-cat-icons img').forEach(i=>i.classList.remove('selected')); img.classList.add('selected');};
 container.appendChild(img);
 });
 }
-
-function addCategory(){
-const name=document.getElementById('new-cat-name').value.trim();
-const selIcon=document.querySelector('#new-cat-icons img.selected');
-if(!name||!selIcon){alert("Выберите название и иконку"); return;}
-categories.push({name:name,icon:selIcon.src});
-document.getElementById('new-cat-name').value='';
-saveData();
-alert("Категория добавлена");
-}
+renderAdminIcons();
 
 function addProduct(){
-const name=document.getElementById('new-prod-name').value.trim();
-const price=parseFloat(document.getElementById('new-prod-price').
+const name=document.getElementById('new-prod-name').value;
+const price=parseFloat(document.getElementById('new-prod-price').value);
+const desc=document.getElementById('new-prod-desc').value;
+const category=document.getElementById('new-prod-cat').value;
+const icon=document.querySelector('#new-prod-icons img.selected')?.src||iconOptions[0];
+if(!name||!price||!desc||!category) return alert("Заполните все поля");
+products.push({name,price,desc,category,icon});
+localStorage.setItem('products',JSON.stringify(products));
+renderProducts();
+renderAdminProducts();
+document.getElementById('new-prod-name').value='';
+document.getElementById('new-prod-price').value='';
+document.getElementById('new-prod-desc').value='';
+document.querySelectorAll('#new-prod-icons img').forEach(i=>i.classList.remove('selected'));
+}
+
+function renderAdminProducts(){
+const container=document.getElementById('admin-products'); container.innerHTML='';
+products.forEach((p,i)=>{
+const div=document.createElement('div'); div.innerText=p.name;
+const btn=document.createElement('button'); btn.className='delete-btn'; btn.innerText='x';
+btn.onclick=()=>{products.splice(i,1); localStorage.setItem('products',JSON.stringify(products)); renderProducts(); renderAdminProducts();};
+div.appendChild(btn); container.appendChild(div);
+});
+}
+
+function renderAdminProductIcons(){
+const container=document.getElementById('new-prod-icons');
+iconOptions.forEach(url=>{
+const img=document.createElement('img'); img.src=url;
+img.onclick=()=>{document.querySelectorAll('#new-prod-icons img').forEach(i=>i.classList.remove('selected')); img.classList.add('selected');};
+container.appendChild(img);
+}
+);
+}
+renderAdminProductIcons();
+
+// ===== Старт =====
+renderCategories();
+renderProducts();
+renderCart();
+renderAdminCategories();
+renderAdminProducts();
+
+// ===== Вход и регистрация =====
+document.getElementById('register-btn').onclick=()=>{
+const email=document.getElementById('reg-email').value;
+const pass=document.getElementById('reg-pass').value;
+if(!email||!pass) return alert("Введите email и пароль");
+if(users[email]) return alert("Пользователь уже существует");
+users[email]=pass; localStorage.setItem('users',JSON.stringify(users));
+alert("Регистрация успешна");
+};
+document.getElementById('login-submit-btn').onclick=()=>{
+const email=document.getElementById('reg-email').value;
+const pass=document.getElementById('reg-pass').value;
+if(users[email]&&users[email]===pass){currentUser=email; localStorage.setItem('currentUser',currentUser); alert("Вход успешен"); if(currentUser===adminEmail) document.getElementById('admin-btn').style.display='block'; closeModal('login-modal');} 
+else{alert("Неверные данные");}
+};
+if(currentUser===adminEmail) document.getElementById('admin-btn').style.display='block';
+</script>
+
+</body>
+</html>
