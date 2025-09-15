@@ -210,4 +210,18 @@ window.onclick=function(e){['login-modal','cart-modal','admin-modal'].forEach(id
 
 // ===== Админка =====
 function renderAdminCategories(){
-const container=document.getElementById('admin-categories
+const container=document.getElementById('admin-categories'); container.innerHTML='';
+categories.forEach((cat,i)=>{
+const div=document.createElement('div'); div.innerText=cat.name;
+const btn=document.createElement('button'); btn.className='delete-btn'; btn.innerText='x';
+btn.onclick=()=>{categories.splice(i,1); saveCategories();};
+div.appendChild(btn); container.appendChild(div);
+});
+const select=document.getElementById('new-prod-cat'); select.innerHTML='';
+categories.forEach(cat=>{const opt=document.createElement('option'); opt.value=cat.name; opt.innerText=cat.name; select.appendChild(opt);});
+}
+
+function saveCategories(){localStorage.setItem('categories',JSON.stringify(categories)); renderCategories(); renderAdminCategories();}
+
+function renderAdminIcons(){
+const container=document.getElementBy
