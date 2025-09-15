@@ -19,7 +19,7 @@ h2{color:#ff4d6d;margin:10px 0;}
 .categories,.products{display:grid;grid-template-columns:1fr;gap:10px;}
 .category,.product{background:#fff;padding:10px;border-radius:10px;box-shadow:0 2px 6px rgba(0,0,0,0.1);text-align:center;cursor:pointer;position:relative;transition:0.2s; touch-action: manipulation;}
 .category:hover,.product:hover{transform:scale(1.03);}
-.category img,.product img{width:50px;height:50px;margin-bottom:5px;}
+.category img,.product img{width:60px;height:60px;margin-bottom:5px;}
 button.add-to-cart{background:#ff4d6d;color:#fff;border:none;padding:6px 10px;border-radius:8px;cursor:pointer;transition:0.2s;}
 button.add-to-cart:hover{background:#ff2e55;}
 .delete-btn{position:absolute;top:5px;right:5px;background:#ff2e55;color:#fff;border:none;padding:2px 5px;border-radius:5px;font-size:12px;cursor:pointer;transition:0.2s;}
@@ -29,10 +29,11 @@ button.add-to-cart:hover{background:#ff2e55;}
 .close{position:absolute;top:10px;right:15px;font-size:25px;font-weight:bold;color:#aaa;cursor:pointer;}
 .close:hover{color:#000;}
 input,select{width:95%;padding:8px;margin:5px 0;border-radius:8px;border:1px solid #ccc;}
-.icon-select img{width:50px;height:50px;margin:5px;cursor:pointer;border:2px solid transparent;border-radius:8px;transition:0.2s;}
+.icon-select{display:grid;grid-template-columns:repeat(4,1fr);gap:5px;margin:5px 0;}
+.icon-select img{width:60px;height:60px;margin:5px;cursor:pointer;border:2px solid transparent;border-radius:8px;transition:0.2s;}
 .icon-select img.selected{border-color:#ff4d6d;transform:scale(1.2);}
 @media(max-width:800px){.container{flex-direction:column;}.categories,.products{grid-template-columns:1fr 1fr;}}
-@media(max-width:500px){.categories,.products{grid-template-columns:1fr;}}
+@media(max-width:500px){.categories,.products{grid-template-columns:1fr;}.icon-select{grid-template-columns:repeat(3,1fr);}}
 </style>
 </head>
 <body>
@@ -115,7 +116,11 @@ const iconOptions=[
 "https://i.postimg.cc/2yB1T6pG/bag.png",
 "https://i.postimg.cc/NF3yH0Xk/shirt.png",
 "https://i.postimg.cc/3x3vR9tc/hat.png",
-"https://i.postimg.cc/Y9sy2M2f/pants.png"
+"https://i.postimg.cc/Y9sy2M2f/pants.png",
+"https://i.postimg.cc/B6qjFvQp/shoes.png",
+"https://i.postimg.cc/6qpvT9K3/dress.png",
+"https://i.postimg.cc/j5Yw7rqp/jacket.png",
+"https://i.postimg.cc/3wYdX9gX/skirt.png"
 ];
 
 // ===== Модалки =====
@@ -285,7 +290,6 @@ div.appendChild(btn); container.appendChild(div);
 
 // ===== Инициализация =====
 setupIconSelect('new-cat-icons'); setupIconSelect('new-prod-icons'); saveData(); renderCart();
-
 </script>
 </body>
 </html>
