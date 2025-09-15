@@ -6,7 +6,6 @@
 <title>K-Vibe Shop — Корейская мода</title>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
-/* Общие стили */
 body {
   font-family: 'Poppins', sans-serif;
   margin: 0;
@@ -41,10 +40,9 @@ nav a {
 }
 nav a:hover { opacity: 0.8; }
 
-/* Баннер с адаптивным текстом */
+/* Баннер */
 .banner {
   background: #ffe4ec;
-  color: #888;
   text-align: center;
   display: flex;
   justify-content: center;
@@ -54,7 +52,7 @@ nav a:hover { opacity: 0.8; }
   overflow: hidden;
 }
 .banner h1 {
-  background: rgba(255,182,193,0.5);
+  background: rgba(255,182,193,0.3);
   border-radius: 20px;
   padding: 2vw 4vw;
   font-size: clamp(20px, 6vw, 36px);
@@ -63,13 +61,12 @@ nav a:hover { opacity: 0.8; }
   word-wrap: break-word;
   animation: fadeIn 2s ease-out;
   cursor: text;
-}
-@keyframes fadeIn {
-  from { opacity:0; transform: translateY(-20px);}
-  to { opacity:1; transform: translateY(0);}
+  color: #333;
+  text-transform: uppercase; /* прописной шрифт */
+  letter-spacing: 1px; /* красивое расстояние между буквами */
 }
 
-/* Категории */
+/* Категории и товары */
 .categories, .products { 
   display: flex; 
   flex-wrap: wrap; 
@@ -89,10 +86,9 @@ nav a:hover { opacity: 0.8; }
 }
 .category img, .product img { width: 100%; transition: transform 0.3s; }
 .category:hover img, .product:hover img { transform: scale(1.05); }
-.category h3, .product h3 { padding: 15px; color: #888; cursor: text; }
+.category h3, .product h3, .product p { color: #333; cursor: text; }
 .product { box-shadow: 0 4px 12px rgba(255,182,193,0.2); width: 260px; }
 .product:hover { transform: translateY(-6px); box-shadow: 0 10px 20px rgba(255,182,193,0.25); }
-.product p, .product h3 { cursor: text; }
 .product button {
   background: #ffb6c1;
   color: #fff;
@@ -128,7 +124,7 @@ nav a:hover { opacity: 0.8; }
 .contact-form button:hover { background: #ff9aa2; transform: scale(1.05); }
 
 /* Футер */
-footer { background: #ffb6c1; color: #fff; text-align: center; padding: 20px; margin-top: 50px; border-radius: 25px 25px 0 0; cursor: text; }
+footer { background: #ffb6c1; color: #333; text-align: center; padding: 20px; margin-top: 50px; border-radius: 25px 25px 0 0; cursor: text; }
 
 /* Секция добавления */
 .add-section { max-width: 1200px; margin: 20px auto; padding: 20px; background: #fff; border-radius: 25px; box-shadow: 0 4px 12px rgba(255,182,193,0.2); }
@@ -136,6 +132,8 @@ footer { background: #ffb6c1; color: #fff; text-align: center; padding: 20px; ma
 .add-section input, .add-section select { margin-bottom: 10px; padding: 10px; border-radius: 10px; border: 1px solid #fcbad3; }
 .add-section button { padding: 10px 20px; background: #ffb6c1; color: #fff; border: none; border-radius: 20px; cursor: pointer; transition: background 0.3s; }
 .add-section button:hover { background: #ff9aa2; }
+
+@keyframes fadeIn { from { opacity:0; transform: translateY(-20px);} to { opacity:1; transform: translateY(0);} }
 </style>
 </head>
 <body>
@@ -154,7 +152,7 @@ footer { background: #ffb6c1; color: #fff; text-align: center; padding: 20px; ma
 <h1 id="banner-text" contenteditable="true">Стиль айдолов: трендовая корейская мода для тебя ✨ С доставкой в Россию!</h1>
 </div>
 
-<!-- Секции категорий и товаров -->
+<!-- Добавление категорий -->
 <div class="add-section">
 <h3>Добавить категорию</h3>
 <input type="text" id="new-cat-name" placeholder="Название категории">
@@ -163,6 +161,7 @@ footer { background: #ffb6c1; color: #fff; text-align: center; padding: 20px; ma
 </div>
 <section id="categories" class="categories"></section>
 
+<!-- Добавление товаров -->
 <div class="add-section">
 <h3>Добавить товар</h3>
 <input type="text" id="new-prod-name" placeholder="Название товара">
@@ -193,47 +192,4 @@ footer { background: #ffb6c1; color: #fff; text-align: center; padding: 20px; ma
 
 <section id="product-page" class="product-page">
 <button onclick="closeProduct()" style="margin-bottom:20px;">← Назад</button>
-<div style="display:flex; flex-wrap:wrap;">
-<div>
-<img id="main-product-img" src="" alt="">
-<div class="gallery" id="product-gallery"></div>
-</div>
-<div style="flex:1; margin-left:20px;">
-<h2 id="product-name"></h2>
-<p id="product-price"></p>
-<p id="product-desc"></p>
-<button id="add-to-cart-btn">Добавить в корзину</button>
-</div>
-</div>
-</section>
-
-<section id="contact">
-<h2 style="text-align:center;">Свяжитесь с нами</h2>
-<form class="contact-form" onsubmit="sendMessage(event)">
-<input type="text" id="contact-name" placeholder="Ваше имя" required>
-<input type="email" id="contact-email" placeholder="Ваш email" required>
-<textarea id="contact-message" rows="5" placeholder="Сообщение" required></textarea>
-<button type="submit">Отправить</button>
-</form>
-</section>
-
-<footer id="footer-text" contenteditable="true">
-© 2025 K-Vibe Shop. Все права защищены.
-</footer>
-
-<script src="https://www.paypal.com/sdk/js?client-id=YOUR_PAYPAL_CLIENT_ID&currency=RUB"></script>
-<script>
-// JS-код остаётся таким же, как у тебя
-let categories = JSON.parse(localStorage.getItem('categories')||'[]');
-let products = JSON.parse(localStorage.getItem('products')||'[]');
-let cart = [];
-let currentProduct = null;
-
-function saveData(){localStorage.setItem('categories',JSON.stringify(categories));localStorage.setItem('products',JSON.stringify(products));renderCategories();renderProducts();populateFilter();}
-function renderCategories(){const container=document.getElementById('categories');container.innerHTML='';categories.forEach(cat=>{const div=document.createElement('div');div.className='category';const img=document.createElement('img');img.src=cat.img;div.appendChild(img);const name=document.createElement('h3');name.innerText=cat.name;name.setAttribute('contenteditable','true');name.addEventListener('input',()=>{cat.name=name.innerText;saveData();});div.appendChild(name);container.appendChild(div);});}
-function renderProducts(){const container=document.getElementById('products-list');container.innerHTML='';products.forEach(p=>{const div=document.createElement('div');div.className='product';div.dataset.category=p.category;const img=document.createElement('img');img.src=p.img;div.appendChild(img);const name=document.createElement('h3');name.innerText=p.name;name.setAttribute('contenteditable','true');name.addEventListener('input',()=>{p.name=name.innerText;saveData();});div.appendChild(name);const price=document.createElement('p');price.innerText='Цена: '+p.price+'₽';price.setAttribute('contenteditable','true');price.addEventListener('input',()=>{p.price=price.innerText.replace(/\D/g,'');saveData();});div.appendChild(price);const desc=document.createElement('p');desc.innerText=p.desc;desc.setAttribute('contenteditable','true');desc.addEventListener('input',()=>{p.desc=desc.innerText;saveData();});div.appendChild(desc);const btn=document.createElement('button');btn.innerText='Подробнее';btn.onclick=()=>openProduct(p.name,p.price,p.desc,[p.img]);div.appendChild(btn);container.appendChild(div);});}
-function populateFilter(){const filter=document.getElementById('filter');const select=document.getElementById('new-prod-cat');filter.innerHTML='<option value="all">Все</option>';select.innerHTML='';categories.forEach(c=>{filter.innerHTML+='<option value="'+c.name+'">'+c.name+'</option>';select.innerHTML+='<option value="'+c.name+'">'+c.name+'</option>';});}
-function addCategory(){const name=document.getElementById('new-cat-name').value;const file=document.getElementById('new-cat-img').files[0];if(!name||!file){alert('Введите имя и выберите картинку');return;}const reader=new FileReader();reader.onload=()=>{categories.push({name,img:reader.result});saveData();};reader.readAsDataURL(file);}
-function addProduct(){const name=document.getElementById('new-prod-name').value;const price=document.getElementById('new-prod-price').value;const desc=document.getElementById('new-prod-desc').value;const cat=document.getElementById('new-prod-cat').value;const file=document.getElementById('new-prod-img').files[0];if(!name||!price||!desc||!cat||!file){alert('Заполните все поля');return;}const reader=new FileReader();reader.onload=()=>{products.push({name,price,desc,category:cat,img:reader.result});saveData();};reader.readAsDataURL(file);}
-function filterCategory(category){document.querySelectorAll('.product').forEach(p=>{p.style.display=(category==='all'||p.dataset.category===category)?'block':'none';});}
-function openProduct(name,price,desc,images){currentProduct={name,price};document.getElementById('product-page').style.display='block';document.getElementById('products-list').
+<div
