@@ -4,14 +4,14 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>K-Vibe Shop — Корейская мода</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
 <style>
 body {
   font-family: 'Poppins', sans-serif;
   margin: 0;
   padding: 0;
   background: #fff0f5;
-  color: #333;
+  color: #4a4a4a;
   scroll-behavior: smooth;
 }
 
@@ -48,22 +48,22 @@ nav a:hover { opacity: 0.8; }
   justify-content: center;
   align-items: center;
   min-height: 30vh;
-  padding: 10vw 5vw;
+  padding: 8vw 5vw;
   overflow: hidden;
 }
 .banner h1 {
+  font-family: 'Playfair Display', serif;
   background: rgba(255,182,193,0.3);
   border-radius: 20px;
   padding: 2vw 4vw;
-  font-size: clamp(20px, 6vw, 36px);
-  line-height: 1.2;
+  font-size: clamp(22px, 6vw, 36px);
+  line-height: 1.3;
   margin: 0;
   word-wrap: break-word;
   animation: fadeIn 2s ease-out;
   cursor: text;
-  color: #333;
-  text-transform: uppercase; /* прописной шрифт */
-  letter-spacing: 1px; /* красивое расстояние между буквами */
+  color: #4a4a4a;
+  text-align: center;
 }
 
 /* Категории и товары */
@@ -86,7 +86,7 @@ nav a:hover { opacity: 0.8; }
 }
 .category img, .product img { width: 100%; transition: transform 0.3s; }
 .category:hover img, .product:hover img { transform: scale(1.05); }
-.category h3, .product h3, .product p { color: #333; cursor: text; }
+.category h3, .product h3, .product p { color: #4a4a4a; cursor: text; }
 .product { box-shadow: 0 4px 12px rgba(255,182,193,0.2); width: 260px; }
 .product:hover { transform: translateY(-6px); box-shadow: 0 10px 20px rgba(255,182,193,0.25); }
 .product button {
@@ -124,7 +124,7 @@ nav a:hover { opacity: 0.8; }
 .contact-form button:hover { background: #ff9aa2; transform: scale(1.05); }
 
 /* Футер */
-footer { background: #ffb6c1; color: #333; text-align: center; padding: 20px; margin-top: 50px; border-radius: 25px 25px 0 0; cursor: text; }
+footer { background: #ffb6c1; color: #4a4a4a; text-align: center; padding: 20px; margin-top: 50px; border-radius: 25px 25px 0 0; cursor: text; }
 
 /* Секция добавления */
 .add-section { max-width: 1200px; margin: 20px auto; padding: 20px; background: #fff; border-radius: 25px; box-shadow: 0 4px 12px rgba(255,182,193,0.2); }
@@ -149,10 +149,12 @@ footer { background: #ffb6c1; color: #333; text-align: center; padding: 20px; ma
 </header>
 
 <div class="banner">
-<h1 id="banner-text" contenteditable="true">Стиль айдолов: трендовая корейская мода для тебя ✨ С доставкой в Россию!</h1>
+<h1 id="banner-text" contenteditable="true">
+СТИЛЬ АЙДОЛОВ: Трендовая корейская мода для тебя<br>
+С доставкой в Россию!
+</h1>
 </div>
 
-<!-- Добавление категорий -->
 <div class="add-section">
 <h3>Добавить категорию</h3>
 <input type="text" id="new-cat-name" placeholder="Название категории">
@@ -161,7 +163,6 @@ footer { background: #ffb6c1; color: #333; text-align: center; padding: 20px; ma
 </div>
 <section id="categories" class="categories"></section>
 
-<!-- Добавление товаров -->
 <div class="add-section">
 <h3>Добавить товар</h3>
 <input type="text" id="new-prod-name" placeholder="Название товара">
@@ -192,4 +193,72 @@ footer { background: #ffb6c1; color: #333; text-align: center; padding: 20px; ma
 
 <section id="product-page" class="product-page">
 <button onclick="closeProduct()" style="margin-bottom:20px;">← Назад</button>
-<div
+<div style="display:flex; flex-wrap:wrap;">
+<div>
+<img id="main-product-img" src="" alt="">
+<div class="gallery" id="product-gallery"></div>
+</div>
+<div style="flex:1; margin-left:20px;">
+<h2 id="product-name"></h2>
+<p id="product-price"></p>
+<p id="product-desc"></p>
+<button id="add-to-cart-btn">Добавить в корзину</button>
+</div>
+</div>
+</section>
+
+<section id="contact">
+<h2 style="text-align:center;">Свяжитесь с нами</h2>
+<form class="contact-form" onsubmit="sendMessage(event)">
+<input type="text" id="contact-name" placeholder="Ваше имя" required>
+<input type="email" id="contact-email" placeholder="Ваш email" required>
+<textarea id="contact-message" rows="5" placeholder="Сообщение" required></textarea>
+<button type="submit">Отправить</button>
+</form>
+</section>
+
+<footer id="footer-text" contenteditable="true">
+© 2025 K-Vibe Shop. Все права защищены.
+</footer>
+
+<script src="https://www.paypal.com/sdk/js?client-id=YOUR_PAYPAL_CLIENT_ID&currency=RUB"></script>
+<script>
+let categories = JSON.parse(localStorage.getItem('categories')||'[]');
+let products = JSON.parse(localStorage.getItem('products')||'[]');
+let cart = [];
+let currentProduct = null;
+
+function saveData(){
+  localStorage.setItem('categories',JSON.stringify(categories));
+  localStorage.setItem('products',JSON.stringify(products));
+  renderCategories();
+  renderProducts();
+  populateFilter();
+}
+
+function renderCategories(){
+  const container=document.getElementById('categories');
+  container.innerHTML='';
+  categories.forEach(cat=>{
+    const div=document.createElement('div');
+    div.className='category';
+    const img=document.createElement('img');
+    img.src=cat.img;
+    div.appendChild(img);
+    const name=document.createElement('h3');
+    name.innerText=cat.name;
+    name.setAttribute('contenteditable','true');
+    name.addEventListener('input',()=>{cat.name=name.innerText;saveData();});
+    div.appendChild(name);
+    container.appendChild(div);
+  });
+}
+
+function renderProducts(){
+  const container=document.getElementById('products-list');
+  container.innerHTML='';
+  products.forEach(p=>{
+    const div=document.createElement('div');
+    div.className='product';
+    div.dataset.category=p.category;
+    const img=document.createElement('img');
