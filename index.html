@@ -6,24 +6,8 @@
 <title>K-Vibe Shop</title>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
-body {
-    margin:0;
-    font-family:'Poppins',sans-serif;
-    background:#f5f5f5;
-    color:#222;
-}
-.topbar{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    padding:10px 15px;
-    background:linear-gradient(135deg,#ff4d6d,#ff9a9e);
-    color:#fff;
-    position:fixed;
-    width:100%;
-    top:0;
-    z-index:1000;
-}
+body {margin:0;font-family:'Poppins',sans-serif;background:#f5f5f5;color:#222;}
+.topbar{display:flex;justify-content:space-between;align-items:center;padding:10px 15px;background:linear-gradient(135deg,#ff4d6d,#ff9a9e);color:#fff;position:fixed;width:100%;top:0;z-index:1000;flex-wrap:wrap;}
 .topbar h1{margin:0;font-size:clamp(18px,5vw,28px);}
 .top-right{display:flex;align-items:center;gap:10px;position:relative;flex-wrap:wrap;}
 .top-right button{background:rgba(255,255,255,0.2);border:none;color:#fff;padding:6px 12px;border-radius:8px;cursor:pointer;white-space:nowrap;}
@@ -33,17 +17,7 @@ body {
 .right{flex:3 1 600px;}
 h2{color:#ff4d6d;margin:10px 0;}
 .categories,.products{display:grid;grid-template-columns:1fr;gap:10px}
-.category,.product{
-    background:#fff;
-    padding:10px;
-    border-radius:10px;
-    box-shadow:0 2px 6px rgba(0,0,0,0.1);
-    text-align:center;
-    cursor:pointer;
-    position:relative;
-    transition:0.2s;
-    touch-action: manipulation;
-}
+.category,.product{background:#fff;padding:10px;border-radius:10px;box-shadow:0 2px 6px rgba(0,0,0,0.1);text-align:center;cursor:pointer;position:relative;transition:0.2s;touch-action: manipulation;}
 .category:hover,.product:hover{transform:scale(1.03);}
 .category img,.product img{width:60px;height:60px;margin-bottom:5px;object-fit:contain;}
 button.add-to-cart{background:#ff4d6d;color:#fff;border:none;padding:6px 10px;border-radius:8px;cursor:pointer;transition:0.2s;}
@@ -58,15 +32,8 @@ input,select{width:100%;padding:8px;margin:5px 0;border-radius:8px;border:1px so
 .icon-select{display:grid;grid-template-columns:repeat(4,1fr);gap:5px;margin:5px 0;}
 .icon-select img{width:60px;height:60px;cursor:pointer;border:2px solid transparent;border-radius:8px;transition:0.2s;object-fit:contain;}
 .icon-select img.selected{border-color:#ff4d6d;transform:scale(1.2);}
-@media(max-width:800px){
-    .container{flex-direction:column;}
-    .categories,.products{grid-template-columns:1fr 1fr;}
-}
-@media(max-width:500px){
-    .categories,.products{grid-template-columns:1fr;}
-    .icon-select{grid-template-columns:repeat(3,1fr);}
-    .topbar{flex-direction:column;align-items:flex-start;gap:5px;}
-}
+@media(max-width:800px){.container{flex-direction:column;}.categories,.products{grid-template-columns:1fr 1fr;}}
+@media(max-width:500px){.categories,.products{grid-template-columns:1fr;}.icon-select{grid-template-columns:repeat(3,1fr);}.topbar{flex-direction:column;align-items:flex-start;gap:5px;}}
 </style>
 </head>
 <body>
@@ -118,7 +85,6 @@ input,select{width:100%;padding:8px;margin:5px 0;border-radius:8px;border:1px so
 <div class="modal-content">
 <span class="close" id="close-admin">&times;</span>
 <h2>Админка</h2>
-
 <h3>Категории</h3>
 <div id="admin-categories"></div>
 <input id="new-cat-name" placeholder="Название категории">
@@ -145,16 +111,29 @@ let products=JSON.parse(localStorage.getItem('products')||'[]');
 let cart=JSON.parse(localStorage.getItem('cart')||'[]');
 
 const iconOptions=[
-"https://cdn-icons-png.flaticon.com/512/2921/2921222.png",
-"https://cdn-icons-png.flaticon.com/512/892/892458.png",
-"https://cdn-icons-png.flaticon.com/512/616/616408.png",
-"https://cdn-icons-png.flaticon.com/512/1250/1250615.png",
-"https://cdn-icons-png.flaticon.com/512/2913/2913465.png",
-"https://cdn-icons-png.flaticon.com/512/1998/1998605.png",
-"https://cdn-icons-png.flaticon.com/512/892/892528.png",
-"https://cdn-icons-png.flaticon.com/512/892/892421.png"
+"https://cdn-icons-png.flaticon.com/512/1055/1055646.png","https://cdn-icons-png.flaticon.com/512/1055/1055648.png",
+"https://cdn-icons-png.flaticon.com/512/1055/1055650.png","https://cdn-icons-png.flaticon.com/512/1055/1055652.png",
+"https://cdn-icons-png.flaticon.com/512/1055/1055654.png","https://cdn-icons-png.flaticon.com/512/1055/1055656.png",
+"https://cdn-icons-png.flaticon.com/512/1055/1055658.png","https://cdn-icons-png.flaticon.com/512/1055/1055660.png",
+"https://cdn-icons-png.flaticon.com/512/1055/1055662.png","https://cdn-icons-png.flaticon.com/512/1055/1055664.png",
+"https://cdn-icons-png.flaticon.com/512/1055/1055666.png","https://cdn-icons-png.flaticon.com/512/1055/1055668.png",
+"https://cdn-icons-png.flaticon.com/512/1055/1055670.png","https://cdn-icons-png.flaticon.com/512/1055/1055672.png",
+"https://cdn-icons-png.flaticon.com/512/1055/1055674.png","https://cdn-icons-png.flaticon.com/512/1055/1055676.png",
+"https://cdn-icons-png.flaticon.com/512/1055/1055678.png","https://cdn-icons-png.flaticon.com/512/1055/1055680.png",
+"https://cdn-icons-png.flaticon.com/512/1055/1055682.png","https://cdn-icons-png.flaticon.com/512/1055/1055684.png",
+"https://cdn-icons-png.flaticon.com/512/1055/1055686.png","https://cdn-icons-png.flaticon.com/512/1055/1055688.png",
+"https://cdn-icons-png.flaticon.com/512/1055/1055690.png","https://cdn-icons-png.flaticon.com/512/1055/1055692.png",
+"https://cdn-icons-png.flaticon.com/512/1055/1055694.png","https://cdn-icons-png.flaticon.com/512/1055/1055696.png",
+"https://cdn-icons-png.flaticon.com/512/1055/1055698.png","https://cdn-icons-png.flaticon.com/512/1055/1055700.png",
+"https://cdn-icons-png.flaticon.com/512/1055/1055702.png","https://cdn-icons-png.flaticon.com/512/1055/1055704.png",
+"https://cdn-icons-png.flaticon.com/512/1055/1055706.png","https://cdn-icons-png.flaticon.com/512/1055/1055708.png",
+"https://cdn-icons-png.flaticon.com/512/1055/1055710.png","https://cdn-icons-png.flaticon.com/512/1055/1055712.png",
+"https://cdn-icons-png.flaticon.com/512/1055/1055714.png","https://cdn-icons-png.flaticon.com/512/1055/1055716.png",
+"https://cdn-icons-png.flaticon.com/512/1055/1055718.png","https://cdn-icons-png.flaticon.com/512/1055/1055720.png",
+"https://cdn-icons-png.flaticon.com/512/1055/1055722.png","https://cdn-icons-png.flaticon.com/512/1055/1055724.png"
 ];
 
+// ===== Функции работы модалок и кнопок =====
 function openModal(id){document.getElementById(id).style.display='block';}
 function closeModal(id){document.getElementById(id).style.display='none';}
 document.getElementById('login-btn').onclick=()=>openModal('login-modal');
@@ -165,6 +144,7 @@ document.getElementById('close-cart').onclick=()=>closeModal('cart-modal');
 document.getElementById('close-admin').onclick=()=>closeModal('admin-modal');
 window.onclick=function(e){['login-modal','cart-modal','admin-modal'].forEach(id=>{if(e.target==document.getElementById(id)) closeModal(id);});}
 
+// ===== Пользовательская регистрация/вход =====
 function updateStatus(){
 const status=document.getElementById('user-status');
 const userButtons=document.getElementById('user-buttons');
@@ -196,6 +176,7 @@ else alert("Неверный логин или пароль");
 function loginUser(email){currentUser=email;localStorage.setItem('currentUser',currentUser);updateStatus();closeModal('login-modal');}
 function logout(){currentUser=null;localStorage.removeItem('currentUser');updateStatus();}
 
+// ===== Начальные данные =====
 if(categories.length===0){
 categories=[
 {name:"Сумки",icon:iconOptions[0]},
@@ -212,6 +193,7 @@ products=[
 ];
 }
 
+// ===== Функции отображения =====
 function renderCategories(){
 const container=document.getElementById('categories'); container.innerHTML='';
 categories.forEach((cat)=>{
@@ -258,9 +240,9 @@ document.getElementById('cart-count').innerText=cart.length;
 }
 
 function saveCart(){localStorage.setItem('cart',JSON.stringify(cart)); renderCart();}
-
 function checkout(){if(cart.length===0){alert("Корзина пуста!");return;} alert("Оформление заказа: "+cart.map(i=>i.name).join(", ")); cart=[]; saveCart(); closeModal('cart-modal');}
 
+// ===== Админка =====
 function populateProdCatSelect(){
 const sel=document.getElementById('new-prod-cat'); sel.innerHTML='';
 categories.forEach(c=>{let opt=document.createElement('option'); opt.value=c.name; opt.innerText=c.name; sel.appendChild(opt);});
@@ -287,48 +269,4 @@ alert("Категория добавлена");
 
 function addProduct(){
 const name=document.getElementById('new-prod-name').value.trim();
-const price=parseFloat(document.getElementById('new-prod-price').value);
-const desc=document.getElementById('new-prod-desc').value.trim();
-const category=document.getElementById('new-prod-cat').value;
-const selIcon=document.querySelector('#new-prod-icons img.selected');
-if(!name||isNaN(price)||!desc||!category||!selIcon){alert("Заполните все поля"); return;}
-products.push({name:name,price:price,desc:desc,category:category,icon:selIcon.src});
-document.getElementById('new-prod-name').value=''; document.getElementById('new-prod-price').value=''; document.getElementById('new-prod-desc').value='';
-saveData();
-alert("Товар добавлен");
-}
-
-function saveData(){
-localStorage.setItem('categories',JSON.stringify(categories)); 
-localStorage.setItem('products',JSON.stringify(products)); 
-renderCategories(); renderProducts(); renderAdminCategories(); renderAdminProducts(); populateProdCatSelect(); renderCart();
-}
-
-function renderAdminCategories(){
-const container=document.getElementById('admin-categories'); container.innerHTML='';
-categories.forEach((c,i)=>{
-const div=document.createElement('div'); div.innerText=c.name;
-const btn=document.createElement('button'); btn.innerText='Удалить'; btn.className='delete-btn';
-btn.onclick=()=>{if(confirm("Удалить категорию? Все товары этой категории тоже будут удалены.")){
-products=products.filter(p=>p.category!==c.name);
-cart=cart.filter(p=>p.category!==c.name);
-categories.splice(i,1); saveData();}};
-div.appendChild(btn); container.appendChild(div);
-});
-}
-
-function renderAdminProducts(){
-const container=document.getElementById('admin-products'); container.innerHTML='';
-products.forEach((p,i)=>{
-const div=document.createElement('div'); div.innerText=`${p.name} - ${p.price} ₽ [${p.category}]`;
-const btn=document.createElement('button'); btn.innerText='Удалить'; btn.className='delete-btn';
-btn.onclick=()=>{if(confirm("Удалить товар?")){products.splice(i,1);cart=cart.filter(x=>x!==p); saveData();}};
-div.appendChild(btn); container.appendChild(div);
-});
-}
-
-// ===== Инициализация =====
-setupIconSelect('new-cat-icons'); setupIconSelect('new-prod-icons'); saveData(); renderCart();
-</script>
-</body>
-</html>
+const price=parseFloat(document.getElementById('new-prod-price').
