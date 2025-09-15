@@ -54,7 +54,7 @@ input[type="file"]{margin-bottom:10px;}
 <body>
 
 <header>
-<h1 id="header-title">K-Vibe Shop</h1>
+<h1 id="header-title" contenteditable="true">K-Vibe Shop</h1>
 <nav>
 <a href="#categories">Категории</a>
 <a href="#products">Товары</a>
@@ -64,10 +64,10 @@ input[type="file"]{margin-bottom:10px;}
 </header>
 
 <div class="banner">
-<h1 id="banner-text">Нежная корейская мода ✨ с доставкой в Россию!</h1>
+<h1 id="banner-text" contenteditable="true">Нежная корейская мода ✨ с доставкой в Россию!</h1>
 </div>
 
-<!-- Секция для добавления категорий -->
+<!-- Добавление категорий -->
 <div class="add-section">
 <h3>Добавить категорию</h3>
 <input type="text" id="new-cat-name" placeholder="Название категории">
@@ -77,7 +77,7 @@ input[type="file"]{margin-bottom:10px;}
 
 <section id="categories" class="categories"></section>
 
-<!-- Секция для добавления товаров -->
+<!-- Добавление товаров -->
 <div class="add-section">
 <h3>Добавить товар</h3>
 <input type="text" id="new-prod-name" placeholder="Название товара">
@@ -104,7 +104,6 @@ input[type="file"]{margin-bottom:10px;}
 <input type="email" id="customer-email" placeholder="Ваш email" required>
 <input type="text" id="customer-address" placeholder="Адрес доставки" required>
 <div id="paypal-button-container"></div>
-<button onclick="checkout()">Оформить заказ</button>
 </div>
 </section>
 
@@ -134,41 +133,46 @@ input[type="file"]{margin-bottom:10px;}
 </form>
 </section>
 
-<footer id="footer-text">
+<footer id="footer-text" contenteditable="true">
 © 2025 K-Vibe Shop. Все права защищены.
 </footer>
 
 <script src="https://www.paypal.com/sdk/js?client-id=YOUR_PAYPAL_CLIENT_ID&currency=RUB"></script>
 <script>
-/* ========== CMS и localStorage ========== */
 let categories = JSON.parse(localStorage.getItem('categories')||'[]');
 let products = JSON.parse(localStorage.getItem('products')||'[]');
 let cart = [];
 let currentProduct = null;
 
-function saveData(){localStorage.setItem('categories',JSON.stringify(categories)); localStorage.setItem('products',JSON.stringify(products)); renderCategories(); renderProducts(); populateFilter();}
+function saveData(){
+localStorage.setItem('categories',JSON.stringify(categories));
+localStorage.setItem('products',JSON.stringify(products));
+renderCategories();
+renderProducts();
+populateFilter();
+}
 
 function renderCategories(){
 const container = document.getElementById('categories'); container.innerHTML='';
-categories.forEach((cat,i)=>{
-    const div=document.createElement('div'); div.className='category';
-    const img=document.createElement('img'); img.src=cat.img; div.appendChild(img);
-    const name=document.createElement('h3'); name.innerText=cat.name; name.setAttribute('contenteditable','true'); 
-    name.addEventListener('input',()=>{cat.name=name.innerText; saveData();});
-    div.appendChild(name); container.appendChild(div);
+categories.forEach(cat=>{
+const div=document.createElement('div'); div.className='category';
+const img=document.createElement('img'); img.src=cat.img; div.appendChild(img);
+const name=document.createElement('h3'); name.innerText=cat.name; name.setAttribute('contenteditable','true');
+name.addEventListener('input',()=>{cat.name=name.innerText; saveData();});
+div.appendChild(name); container.appendChild(div);
 });
 }
 
 function renderProducts(){
 const container = document.getElementById('products-list'); container.innerHTML='';
-products.forEach((p,i)=>{
-    const div=document.createElement('div'); div.className='product'; div.dataset.category=p.category;
-    const img=document.createElement('img'); img.src=p.img; div.appendChild(img);
-    const name=document.createElement('h3'); name.innerText=p.name; name.setAttribute('contenteditable','true'); name.addEventListener('input',()=>{p.name=name.innerText; saveData();}); div.appendChild(name);
-    const price=document.createElement('p'); price.innerText='Цена: '+p.price+'₽'; price.setAttribute('contenteditable','true'); price.addEventListener('input',()=>{p.price=price.innerText.replace(/\D/g,''); saveData();}); div.appendChild(price);
-    const desc=document.createElement('p'); desc.innerText=p.desc; desc.setAttribute('contenteditable','true'); desc.addEventListener('input',()=>{p.desc=desc.innerText; saveData();}); div.appendChild(desc);
-    const btn=document.createElement('button'); btn.innerText='Подробнее'; btn.onclick=()=>openProduct(p.name,p.price,p.desc,[p.img]); div.appendChild(btn);
-    container.appendChild(div);
+products.forEach(p=>{
+const div=document.createElement('div'); div.className='product'; div.dataset.category=p.category;
+const img=document.createElement('img'); img.src=p.img; div.appendChild(img);
+const name=document.createElement('h3'); name.innerText=p.name; name.setAttribute('contenteditable','true'); name.addEventListener('input',()=>{p.name=name.innerText; saveData();}); div.appendChild(name);
+const price=document.createElement('p'); price.innerText='Цена: '+p.price+'₽'; price.setAttribute('contenteditable','true'); price.addEventListener('input',()=>{p.price=price.innerText.replace(/\D/g,''); saveData();}); div.appendChild(price);
+const desc=document.createElement('p'); desc.innerText=p.desc; desc.setAttribute('contenteditable','true'); desc.addEventListener('input',()=>{p.desc=desc.innerText; saveData();}); div.appendChild(desc);
+const btn=document.createElement('button'); btn.innerText='Подробнее'; btn.onclick=()=>openProduct(p.name,p.price,p.desc,[p.img]); div.appendChild(btn);
+container.appendChild(div);
 });
 }
 
@@ -188,10 +192,10 @@ const name=document.getElementById('new-prod-name').value; const price=document.
 const reader=new FileReader(); reader.onload=()=>{products.push({name,price,desc,category:cat,img:reader.result}); saveData();}; reader.readAsDataURL(file);
 }
 
-/* ========== Фильтр и открытие товара ========== */
 function filterCategory(category){
 document.querySelectorAll('.product').forEach(p=>{p.style.display=(category==='all'||p.dataset.category===category)?'block':'none';});
 }
+
 function openProduct(name,price,desc,images){
 currentProduct={name,price};
 document.getElementById('product-page').style.display='block'; document.getElementById('products-list').style.display='none';
@@ -200,19 +204,28 @@ const mainImg=document.getElementById('main-product-img'); mainImg.src=images[0]
 images.forEach((img,i)=>{const thumb=document.createElement('img'); thumb.src=img; if(i===0) thumb.classList.add('active'); thumb.onclick=()=>{mainImg.src=img; gallery.querySelectorAll('img').forEach(x=>x.classList.remove('active')); thumb.classList.add('active');}; gallery.appendChild(thumb);});
 document.getElementById('add-to-cart-btn').onclick=()=>addToCart(name,price);
 }
+
 function closeProduct(){document.getElementById('product-page').style.display='none';document.getElementById('products-list').style.display='flex';}
 
-/* ========== Корзина и PayPal ========== */
 function addToCart(name,price){cart.push({name,price}); renderCart();}
 function renderCart(){const cartDiv=document.getElementById('cart-items'); if(cart.length===0){cartDiv.innerHTML='Пока корзина пуста.'; document.getElementById('checkout-form').style.display='none'; return;} cartDiv.innerHTML=''; cart.forEach((item,index)=>{const div=document.createElement('div'); div.className='cart-item'; div.innerHTML=`<span>${item.name} - ${item.price}₽</span><button onclick="removeFromCart(${index})">Удалить</button>`; cartDiv.appendChild(div);}); document.getElementById('checkout-form').style.display='flex';}
 function removeFromCart(index){cart.splice(index,1); renderCart();}
-paypal.Buttons({createOrder:function(data,actions){const total=cart.reduce((sum,item)=>sum+Number(item.price),0); return actions.order.create({purchase_units:[{amount:{value:total}}]});}, onApprove:function(data,actions){return actions.order.capture().then(details=>{alert('Спасибо за покупку, '+details.payer.name.given_name+'!'); cart=[]; renderCart();});}}).render('#paypal-button-container');
-function checkout(){const name=document.getElementById('customer-name').value; const email=document.getElementById('customer-email').value; const address=document.getElementById('customer-address').value; if(!name||!email||!address){alert('Заполните все поля!'); return;} alert('Спасибо за заказ, '+name+'!\nСумма: '+cart.reduce((a,b)=>a+ +b.price,0)+'₽'); cart=[]; renderCart();}
 
-/* ========== Контакты ========== */
+paypal.Buttons({
+createOrder:function(data,actions){
+const total=cart.reduce((sum,item)=>sum+Number(item.price),0);
+return actions.order.create({purchase_units:[{amount:{value:total}}]});
+},
+onApprove:function(data,actions){
+return actions.order.capture().then(details=>{
+alert('Спасибо за покупку, '+details.payer.name.given_name+'!');
+cart=[]; renderCart();
+});
+}
+}).render('#paypal-button-container');
+
 function sendMessage(e){e.preventDefault(); const name=document.getElementById('contact-name').value; const email=document.getElementById('contact-email').value; const message=document.getElementById('contact-message').value; alert(`Сообщение отправлено!\nИмя: ${name}\nEmail: ${email}\nСообщение: ${message}`); document.querySelector('.contact-form').reset();}
 
-/* ========== Инициализация ========== */
 document.addEventListener('DOMContentLoaded',()=>{renderCategories(); renderProducts(); populateFilter();});
 </script>
 
