@@ -3,43 +3,203 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Магазин корейской одежды и сумок</title>
+<title>K-Vibe Shop — Корейская мода</title>
 <style>
-body { font-family: 'Arial', sans-serif; margin:0; padding:0; background:#f5f5f5; scroll-behavior: smooth; }
-header { background:#222; color:#fff; padding:20px; text-align:center; position:sticky; top:0; z-index:1000; }
-nav a { color:#fff; margin:0 15px; text-decoration:none; font-weight:bold; transition: color 0.3s; }
-nav a:hover { color:#ff6f61; }
-.banner { background:#ff6f61; color:#fff; text-align:center; padding:80px 20px; font-size:28px; position:relative; overflow:hidden; }
-.banner h1 { animation: slideIn 2s ease-out; }
-@keyframes slideIn { 0% {opacity:0; transform:translateY(-50px);} 100% {opacity:1; transform:translateY(0);} }
-.categories, .products { display:flex; flex-wrap:wrap; justify-content:center; margin:20px; }
-.category, .product { background:#fff; border:1px solid #ddd; border-radius:10px; margin:10px; padding:15px; width:200px; text-align:center; cursor:pointer; transition: transform 0.3s, box-shadow 0.3s; }
-.category:hover, .product:hover { transform: translateY(-5px); box-shadow:0 10px 20px rgba(0,0,0,0.2); }
-.category img, .product img { width:100%; border-radius:10px; }
-.product button { background:#ff6f61; color:#fff; border:none; padding:10px; border-radius:5px; cursor:pointer; transition: transform 0.2s, background 0.3s; }
-.product button:hover { transform: scale(1.05); background:#e85b50; }
-footer { background:#222; color:#fff; text-align:center; padding:20px; margin-top:20px; }
-.contact-form, .checkout { display:flex; flex-direction:column; max-width:400px; margin:auto; }
-.contact-form input, .contact-form textarea, .checkout input { margin:5px 0; padding:10px; border-radius:5px; border:1px solid #ccc; }
-.contact-form button, .checkout button { background:#ff6f61; color:#fff; border:none; padding:10px; border-radius:5px; cursor:pointer; margin-top:10px; transition: transform 0.2s, background 0.3s; }
-.contact-form button:hover, .checkout button:hover { transform: scale(1.05); background:#e85b50; }
-.cart { max-width:600px; margin:auto; background:#fff; padding:20px; border-radius:10px; }
-.cart-item { display:flex; justify-content:space-between; margin-bottom:10px; }
-.product-page { max-width:900px; margin:20px auto; background:#fff; padding:20px; border-radius:10px; display:none; }
-.product-page img { width:300px; border-radius:10px; margin-right:20px; transition: transform 0.3s; }
-.product-page img:hover { transform: scale(1.05); }
-.gallery { display:flex; margin-top:10px; flex-wrap:wrap; }
-.gallery img { width:60px; margin-right:10px; cursor:pointer; border:2px solid #ddd; border-radius:5px; transition: border 0.3s; }
-.gallery img.active { border-color:#ff6f61; }
-.reviews { margin-top:20px; }
-.review { border-top:1px solid #ddd; padding:10px 0; }
-select { margin-bottom:20px; padding:5px; }
+body {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    background: #fff0f5; /* нежно-розовый фон */
+    color: #444;
+    scroll-behavior: smooth;
+}
+
+/* Шапка */
+header {
+    background: linear-gradient(90deg, #ffb6c1, #ff9aa2);
+    color: #fff;
+    padding: 20px;
+    text-align: center;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+header h1 {
+    margin: 0;
+    font-size: 28px;
+}
+nav a {
+    color: #fff;
+    margin: 0 15px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: opacity 0.3s;
+}
+nav a:hover {
+    opacity: 0.7;
+}
+
+/* Баннер */
+.banner {
+    background: #ffe4ec;
+    color: #d6336c;
+    text-align: center;
+    padding: 80px 20px;
+    font-size: 28px;
+    position: relative;
+    overflow: hidden;
+}
+.banner h1 {
+    animation: fadeIn 2s ease-out;
+}
+@keyframes fadeIn {
+    from {opacity: 0;}
+    to {opacity: 1;}
+}
+
+/* Категории и товары */
+.categories, .products {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin: 30px auto;
+    max-width: 1100px;
+}
+.category, .product {
+    background: #fff;
+    border: 1px solid #fddde6;
+    border-radius: 15px;
+    margin: 10px;
+    padding: 15px;
+    width: 220px;
+    text-align: center;
+    cursor: pointer;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+.category:hover, .product:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(255,182,193,0.5);
+}
+.category img, .product img {
+    width: 100%;
+    border-radius: 12px;
+    margin-bottom: 10px;
+}
+.product h3 {
+    color: #d6336c;
+}
+.product p {
+    font-weight: bold;
+}
+.product button {
+    background: #ff9aa2;
+    color: #fff;
+    border: none;
+    padding: 10px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.2s;
+}
+.product button:hover {
+    background: #ff6f91;
+    transform: scale(1.05);
+}
+
+/* Корзина */
+.cart {
+    max-width: 600px;
+    margin: auto;
+    background: #fff;
+    padding: 20px;
+    border-radius: 15px;
+    border: 1px solid #fddde6;
+}
+.cart-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+/* Формы */
+.contact-form, .checkout {
+    display: flex;
+    flex-direction: column;
+    max-width: 400px;
+    margin: auto;
+}
+.contact-form input, .contact-form textarea, .checkout input {
+    margin: 8px 0;
+    padding: 12px;
+    border-radius: 10px;
+    border: 1px solid #fcbad3;
+}
+.contact-form button, .checkout button {
+    background: #ff9aa2;
+    color: #fff;
+    border: none;
+    padding: 12px;
+    border-radius: 25px;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: background 0.3s, transform 0.2s;
+}
+.contact-form button:hover, .checkout button:hover {
+    background: #ff6f91;
+    transform: scale(1.05);
+}
+
+/* Страница товара */
+.product-page {
+    max-width: 900px;
+    margin: 20px auto;
+    background: #fff;
+    padding: 20px;
+    border-radius: 15px;
+    border: 1px solid #fddde6;
+    display: none;
+}
+.product-page img {
+    width: 300px;
+    border-radius: 12px;
+    margin-right: 20px;
+    transition: transform 0.3s;
+}
+.product-page img:hover {
+    transform: scale(1.05);
+}
+.gallery {
+    display: flex;
+    margin-top: 10px;
+    flex-wrap: wrap;
+}
+.gallery img {
+    width: 60px;
+    margin-right: 10px;
+    cursor: pointer;
+    border: 2px solid #ddd;
+    border-radius: 5px;
+    transition: border 0.3s;
+}
+.gallery img.active {
+    border-color: #ff9aa2;
+}
+
+/* Подвал */
+footer {
+    background: #ff9aa2;
+    color: #fff;
+    text-align: center;
+    padding: 20px;
+    margin-top: 30px;
+    border-radius: 20px 20px 0 0;
+}
 </style>
 </head>
 <body>
 
 <header>
-    <h1>Корейская одежда и сумки</h1>
+    <h1>K-Vibe Shop</h1>
     <nav>
         <a href="#categories">Категории</a>
         <a href="#products">Товары</a>
@@ -49,9 +209,10 @@ select { margin-bottom:20px; padding:5px; }
 </header>
 
 <div class="banner">
-    <h1>Новые поступления корейской моды – доставка в Россию!</h1>
+    <h1>Нежная корейская мода ✨ с доставкой в Россию!</h1>
 </div>
 
+<!-- категории -->
 <section id="categories" class="categories">
     <div class="category" data-category="clothes" onclick="filterCategory('clothes')">
         <img src="https://via.placeholder.com/200x200?text=Одежда" alt="Одежда">
@@ -63,6 +224,7 @@ select { margin-bottom:20px; padding:5px; }
     </div>
 </section>
 
+<!-- товары -->
 <section id="products">
     <h2 style="text-align:center;">Каталог товаров</h2>
     <select id="filter" onchange="filterCategory(this.value)">
@@ -89,6 +251,7 @@ select { margin-bottom:20px; padding:5px; }
     </div>
 </section>
 
+<!-- корзина -->
 <section id="cart">
     <h2 style="text-align:center;">Корзина</h2>
     <div class="cart" id="cart-items">
@@ -102,8 +265,9 @@ select { margin-bottom:20px; padding:5px; }
     </div>
 </section>
 
+<!-- страница товара -->
 <section id="product-page" class="product-page">
-    <button onclick="closeProduct()" style="margin-bottom:20px;">Назад к каталогу</button>
+    <button onclick="closeProduct()" style="margin-bottom:20px;">← Назад</button>
     <div style="display:flex; flex-wrap:wrap;">
         <div>
             <img id="main-product-img" src="" alt="">
@@ -114,11 +278,11 @@ select { margin-bottom:20px; padding:5px; }
             <p id="product-price"></p>
             <p id="product-desc"></p>
             <button id="add-to-cart-btn">Добавить в корзину</button>
-            <div class="reviews" id="product-reviews"></div>
         </div>
     </div>
 </section>
 
+<!-- контакты -->
 <section id="contact">
     <h2 style="text-align:center;">Свяжитесь с нами</h2>
     <form class="contact-form" onsubmit="sendMessage(event)">
@@ -130,7 +294,7 @@ select { margin-bottom:20px; padding:5px; }
 </section>
 
 <footer>
-    © 2025 Магазин корейской одежды и сумок. Все права защищены.
+    © 2025 K-Vibe Shop. Все права защищены.
 </footer>
 
 <script>
@@ -211,7 +375,7 @@ function checkout(){
     const email = document.getElementById('customer-email').value;
     const address = document.getElementById('customer-address').value;
     if(!name || !email || !address) { alert('Заполните все поля!'); return; }
-    alert('Спасибо за заказ, ' + name + '!\nСумма: ' + cart.reduce((a,b)=>a+b.price,0) + '₽');
+    alert('Спасибо за заказ, ' + name + '!\nСумма: ' + cart.reduce((a,b)=>a+ +b.price,0) + '₽');
     cart = [];
     renderCart();
 }
@@ -227,4 +391,4 @@ function sendMessage(event){
 </script>
 
 </body>
-  </html>
+</html>
