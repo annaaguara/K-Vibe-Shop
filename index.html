@@ -6,8 +6,24 @@
 <title>K-Vibe Shop</title>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
-body {margin:0;font-family:'Poppins',sans-serif;background:#f5f5f5;color:#222;}
-.topbar{display:flex;justify-content:space-between;align-items:center;padding:10px 20px;background:linear-gradient(135deg,#ff4d6d,#ff9a9e);color:#fff;position:fixed;width:100%;top:0;z-index:1000;}
+body {
+    margin:0;
+    font-family:'Poppins',sans-serif;
+    background:#f5f5f5;
+    color:#222;
+}
+.topbar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:10px 20px;
+    background:linear-gradient(135deg,#ff4d6d,#ff9a9e);
+    color:#fff;
+    position:fixed;
+    width:100%;
+    top:0;
+    z-index:1000;
+}
 .topbar h1{margin:0;font-size:clamp(18px,5vw,28px);}
 .top-right{display:flex;align-items:center;gap:10px;position:relative;}
 .top-right button{background:rgba(255,255,255,0.2);border:none;color:#fff;padding:5px 10px;border-radius:8px;cursor:pointer;}
@@ -17,9 +33,19 @@ body {margin:0;font-family:'Poppins',sans-serif;background:#f5f5f5;color:#222;}
 .right{flex:3 1 600px;}
 h2{color:#ff4d6d;margin:10px 0;}
 .categories,.products{display:grid;grid-template-columns:1fr;gap:10px;}
-.category,.product{background:#fff;padding:10px;border-radius:10px;box-shadow:0 2px 6px rgba(0,0,0,0.1);text-align:center;cursor:pointer;position:relative;transition:0.2s; touch-action: manipulation;}
+.category,.product{
+    background:#fff;
+    padding:10px;
+    border-radius:10px;
+    box-shadow:0 2px 6px rgba(0,0,0,0.1);
+    text-align:center;
+    cursor:pointer;
+    position:relative;
+    transition:0.2s;
+    touch-action: manipulation;
+}
 .category:hover,.product:hover{transform:scale(1.03);}
-.category img,.product img{width:60px;height:60px;margin-bottom:5px;}
+.category img,.product img{width:60px;height:60px;margin-bottom:5px;object-fit:contain;}
 button.add-to-cart{background:#ff4d6d;color:#fff;border:none;padding:6px 10px;border-radius:8px;cursor:pointer;transition:0.2s;}
 button.add-to-cart:hover{background:#ff2e55;}
 .delete-btn{position:absolute;top:5px;right:5px;background:#ff2e55;color:#fff;border:none;padding:2px 5px;border-radius:5px;font-size:12px;cursor:pointer;transition:0.2s;}
@@ -30,10 +56,16 @@ button.add-to-cart:hover{background:#ff2e55;}
 .close:hover{color:#000;}
 input,select{width:95%;padding:8px;margin:5px 0;border-radius:8px;border:1px solid #ccc;}
 .icon-select{display:grid;grid-template-columns:repeat(4,1fr);gap:5px;margin:5px 0;}
-.icon-select img{width:60px;height:60px;margin:5px;cursor:pointer;border:2px solid transparent;border-radius:8px;transition:0.2s;}
+.icon-select img{width:60px;height:60px;margin:5px;cursor:pointer;border:2px solid transparent;border-radius:8px;transition:0.2s;object-fit:contain;}
 .icon-select img.selected{border-color:#ff4d6d;transform:scale(1.2);}
-@media(max-width:800px){.container{flex-direction:column;}.categories,.products{grid-template-columns:1fr 1fr;}}
-@media(max-width:500px){.categories,.products{grid-template-columns:1fr;}.icon-select{grid-template-columns:repeat(3,1fr);}}
+@media(max-width:800px){
+    .container{flex-direction:column;}
+    .categories,.products{grid-template-columns:1fr 1fr;}
+}
+@media(max-width:500px){
+    .categories,.products{grid-template-columns:1fr;}
+    .icon-select{grid-template-columns:repeat(3,1fr);}
+}
 </style>
 </head>
 <body>
@@ -104,7 +136,6 @@ input,select{width:95%;padding:8px;margin:5px 0;border-radius:8px;border:1px sol
 </div>
 
 <script>
-// ===== Данные =====
 const adminEmail="annaaguara@gmail.com";
 let users=JSON.parse(localStorage.getItem('users')||'{}');
 let currentUser=localStorage.getItem('currentUser')||null;
@@ -113,28 +144,26 @@ let products=JSON.parse(localStorage.getItem('products')||'[]');
 let cart=JSON.parse(localStorage.getItem('cart')||'[]');
 
 const iconOptions=[
-"https://i.postimg.cc/2yB1T6pG/bag.png",
-"https://i.postimg.cc/NF3yH0Xk/shirt.png",
-"https://i.postimg.cc/3x3vR9tc/hat.png",
-"https://i.postimg.cc/Y9sy2M2f/pants.png",
-"https://i.postimg.cc/B6qjFvQp/shoes.png",
-"https://i.postimg.cc/6qpvT9K3/dress.png",
-"https://i.postimg.cc/j5Yw7rqp/jacket.png",
-"https://i.postimg.cc/3wYdX9gX/skirt.png"
+"https://i.postimg.cc/tJXQmD4t/bag.png",
+"https://i.postimg.cc/1Xt4FV4F/shirt.png",
+"https://i.postimg.cc/mkZV5Hfh/hat.png",
+"https://i.postimg.cc/7Y6H6h5H/pants.png",
+"https://i.postimg.cc/bJ8m7FqS/shoes.png",
+"https://i.postimg.cc/Hsxn3fYY/dress.png",
+"https://i.postimg.cc/dVwDfp2x/jacket.png",
+"https://i.postimg.cc/Qxg6Yq7Y/skirt.png"
 ];
 
-// ===== Модалки =====
 function openModal(id){document.getElementById(id).style.display='block';}
 function closeModal(id){document.getElementById(id).style.display='none';}
 document.getElementById('login-btn').onclick=()=>openModal('login-modal');
-document.getElementById('cart-btn').onclick=()=>openModal('cart-modal');
-document.getElementById('admin-btn').onclick=()=>openModal('admin-modal');
+document.getElementById('cart-btn').onclick=()=>{renderCart(); openModal('cart-modal');};
+document.getElementById('admin-btn').onclick=()=>{populateProdCatSelect(); setupIconSelect('new-cat-icons'); setupIconSelect('new-prod-icons'); renderAdminCategories(); renderAdminProducts(); openModal('admin-modal');};
 document.getElementById('close-login').onclick=()=>closeModal('login-modal');
 document.getElementById('close-cart').onclick=()=>closeModal('cart-modal');
 document.getElementById('close-admin').onclick=()=>closeModal('admin-modal');
 window.onclick=function(e){['login-modal','cart-modal','admin-modal'].forEach(id=>{if(e.target==document.getElementById(id)) closeModal(id);});}
 
-// ===== Статус =====
 function updateStatus(){
 const status=document.getElementById('user-status');
 const userButtons=document.getElementById('user-buttons');
@@ -150,7 +179,6 @@ adminBtn.style.display='none';
 }}
 updateStatus();
 
-// ===== Регистрация/Вход =====
 document.getElementById('register-btn').onclick=function(){
 const email=document.getElementById('reg-email').value.trim();
 const pass=document.getElementById('reg-pass').value.trim();
@@ -167,7 +195,6 @@ else alert("Неверный логин или пароль");
 function loginUser(email){currentUser=email;localStorage.setItem('currentUser',currentUser);updateStatus();closeModal('login-modal');}
 function logout(){currentUser=null;localStorage.removeItem('currentUser');updateStatus();}
 
-// ===== Инициализация =====
 if(categories.length===0){
 categories=[
 {name:"Сумки",icon:iconOptions[0]},
@@ -183,7 +210,6 @@ products=[
 ];
 }
 
-// ===== Рендер =====
 function renderCategories(){
 const container=document.getElementById('categories'); container.innerHTML='';
 categories.forEach((cat)=>{
@@ -204,7 +230,7 @@ const img=document.createElement('img'); img.src=p.icon; div.appendChild(img);
 const name=document.createElement('h3'); name.innerText=p.name; div.appendChild(name);
 const price=document.createElement('p'); price.innerText=p.price+" ₽"; div.appendChild(price);
 const btn=document.createElement('button'); btn.className='add-to-cart'; btn.innerText='В корзину';
-btn.onclick=()=>{cart.push(p);saveCart();};
+btn.onclick=()=>{cart.push(p); saveCart();};
 div.appendChild(btn);
 container.appendChild(div);
 });
@@ -212,7 +238,6 @@ container.appendChild(div);
 
 function filterProducts(catName){renderProducts(catName);}
 
-// ===== Корзина =====
 function renderCart(){
 const cartDiv=document.getElementById('cart-items');
 const totalDiv=document.getElementById('cart-total');
@@ -234,10 +259,19 @@ function saveCart(){localStorage.setItem('cart',JSON.stringify(cart)); renderCar
 
 function checkout(){if(cart.length===0){alert("Корзина пуста!");return;} alert("Оформление заказа: "+cart.map(i=>i.name).join(", ")); cart=[]; saveCart(); closeModal('cart-modal');}
 
-// ===== Админка =====
-function populateProdCatSelect(){const sel=document.getElementById('new-prod-cat'); sel.innerHTML=''; categories.forEach(c=>{let opt=document.createElement('option'); opt.value=c.name; opt.innerText=c.name; sel.appendChild(opt);});}
+function populateProdCatSelect(){
+const sel=document.getElementById('new-prod-cat'); sel.innerHTML='';
+categories.forEach(c=>{let opt=document.createElement('option'); opt.value=c.name; opt.innerText=c.name; sel.appendChild(opt);});
+}
 
-function setupIconSelect(containerId){const container=document.getElementById(containerId); container.innerHTML=''; iconOptions.forEach(icon=>{const img=document.createElement('img'); img.src=icon; img.onclick=()=>{container.querySelectorAll('img').forEach(i=>i.classList.remove('selected')); img.classList.add('selected');}; container.appendChild(img);});}
+function setupIconSelect(containerId){
+const container=document.getElementById(containerId); container.innerHTML='';
+iconOptions.forEach(icon=>{
+const img=document.createElement('img'); img.src=icon;
+img.onclick=()=>{container.querySelectorAll('img').forEach(i=>i.classList.remove('selected')); img.classList.add('selected');};
+container.appendChild(img);
+});
+}
 
 function addCategory(){
 const name=document.getElementById('new-cat-name').value.trim();
@@ -265,7 +299,7 @@ alert("Товар добавлен");
 function saveData(){
 localStorage.setItem('categories',JSON.stringify(categories)); 
 localStorage.setItem('products',JSON.stringify(products)); 
-renderCategories(); renderProducts(); renderAdminCategories(); renderAdminProducts(); populateProdCatSelect();
+renderCategories(); renderProducts(); renderAdminCategories(); renderAdminProducts(); populateProdCatSelect(); renderCart();
 }
 
 function renderAdminCategories(){
@@ -273,7 +307,10 @@ const container=document.getElementById('admin-categories'); container.innerHTML
 categories.forEach((c,i)=>{
 const div=document.createElement('div'); div.innerText=c.name;
 const btn=document.createElement('button'); btn.innerText='Удалить'; btn.className='delete-btn';
-btn.onclick=()=>{if(confirm("Удалить категорию? Все товары этой категории тоже будут удалены.")){categories.splice(i,1); products=products.filter(p=>p.category!==c.name); saveData();}};
+btn.onclick=()=>{if(confirm("Удалить категорию? Все товары этой категории тоже будут удалены.")){
+products=products.filter(p=>p.category!==c.name);
+cart=cart.filter(p=>p.category!==c.name);
+categories.splice(i,1); saveData();}};
 div.appendChild(btn); container.appendChild(div);
 });
 }
@@ -283,7 +320,7 @@ const container=document.getElementById('admin-products'); container.innerHTML='
 products.forEach((p,i)=>{
 const div=document.createElement('div'); div.innerText=`${p.name} - ${p.price} ₽ [${p.category}]`;
 const btn=document.createElement('button'); btn.innerText='Удалить'; btn.className='delete-btn';
-btn.onclick=()=>{if(confirm("Удалить товар?")){products.splice(i,1); saveData();}};
+btn.onclick=()=>{if(confirm("Удалить товар?")){products.splice(i,1);cart=cart.filter(x=>x!==p); saveData();}};
 div.appendChild(btn); container.appendChild(div);
 });
 }
