@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Магазин корейской одежды и сумок</title>
+<style>
+body { font-family: 'Arial', sans-serif; margin:0; padding:0; background:#f5f5f5; scroll-behavior: smooth; }
+header { background:#222; color:#fff; padding:20px; text-align:center; position:sticky; top:0; z-index:1000; }
+nav a { color:#fff; margin:0 15px; text-decoration:none; font-weight:bold; transition: color 0.3s; }
+nav a:hover { color:#ff6f61; }
+.banner { background:#ff6f61; color:#fff; text-align:center; padding:80px 20px; font-size:28px; position:relative; overflow:hidden; }
+.banner h1 { animation: slideIn 2s ease-out; }
+@keyframes slideIn { 0% {opacity:0; transform:translateY(-50px);} 100% {opacity:1; transform:translateY(0);} }
+.categories, .products { display:flex; flex-wrap:wrap; justify-content:center; margin:20px; }
+.category, .product { background:#fff; border:1px solid #ddd; border-radius:10px; margin:10px; padding:15px; width:200px; text-align:center; cursor:pointer; transition: transform 0.3s, box-shadow 0.3s; }
+.category:hover, .product:hover { transform: translateY(-5px); box-shadow:0 10px 20px rgba(0,0,0,0.2); }
+.category img, .product img { width:100%; border-radius:10px; }
+.product button { background:#ff6f61; color:#fff; border:none; padding:10px; border-radius:5px; cursor:pointer; transition: transform 0.2s, background 0.3s; }
+.product button:hover { transform: scale(1.05); background:#e85b50; }
+footer { background:#222; color:#fff; text-align:center; padding:20px; margin-top:20px; }
+.contact-form, .checkout { display:flex; flex-direction:column; max-width:400px; margin:auto; }
+.contact-form input, .contact-form textarea, .checkout input { margin:5px 0; padding:10px; border-radius:5px; border:1px solid #ccc; }
+.contact-form button, .checkout button { background:#ff6f61; color:#fff; border:none; padding:10px; border-radius:5px; cursor:pointer; margin-top:10px; transition: transform 0.2s, background 0.3s; }
+.contact-form button:hover, .checkout button:hover { transform: scale(1.05); background:#e85b50; }
+.cart { max-width:600px; margin:auto; background:#fff; padding:20px; border-radius:10px; }
+.cart-item { display:flex; justify-content:space-between; margin-bottom:10px; }
+.product-page { max-width:900px; margin:20px auto; background:#fff; padding:20px; border-radius:10px; display:none; }
+.product-page img { width:300px; border-radius:10px; margin-right:20px; transition: transform 0.3s; }
+.product-page img:hover { transform: scale(1.05); }
+.gallery { display:flex; margin-top:10px; flex-wrap:wrap; }
+.gallery img { width:60px; margin-right:10px; cursor:pointer; border:2px solid #ddd; border-radius:5px; transition: border 0.3s; }
+.gallery img.active { border-color:#ff6f61; }
+.reviews { margin-top:20px; }
+.review { border-top:1px solid #ddd; padding:10px 0; }
+select { margin-bottom:20px; padding:5px; }
+</style>
+</head>
+<body>
+
+<header>
+    <h1>Корейская одежда и сумки</h1>
+    <nav>
+        <a href="#categories">Категории</a>
+        <a href="#products">Товары</a>
+        <a href="#cart">Корзина</a>
+        <a href="#contact">Контакты</a>
+    </nav>
+</header>
+
+<div class="banner">
+    <h1>Новые поступления корейской моды – доставка в Россию!</h1>
+</div>
+
+<section id="categories" class="categories">
+    <div class="category" data-category="clothes" onclick="filterCategory('clothes')">
+        <img src="https://via.placeholder.com/200x200?text=Одежда" alt="Одежда">
+        <h3>Одежда</h3>
+    </div>
+    <div class="category" data-category="bags" onclick="filterCategory('bags')">
+        <img src="https://via.placeholder.com/200x200?text=Сумки" alt="Сумки">
+        <h3>Сумки</h3>
+    </div>
+</section>
+
+<section id="products">
+    <h2 style="text-align:center;">Каталог товаров</h2>
+    <select id="filter" onchange="filterCategory(this.value)">
+        <option value="all">Все</option>
+        <option value="clothes">Одежда</option>
+        <option value="bags">Сумки</option>
+    </select>
+    <div class="products" id="products-list">
+        <div class="product" data-category="clothes" onclick="openProduct('Красивое платье','3500','Платье из качественной ткани',['https://via.placeholder.com/300x300?text=Платье1','https://via.placeholder.com/300x300?text=Платье2','https://via.placeholder.com/300x300?text=Платье3'])">
+            <img src="https://via.placeholder.com/200x200?text=Платье" alt="Платье">
+            <h3>Красивое платье</h3>
+            <p>Цена: 3500₽</p>
+        </div>
+        <div class="product" data-category="bags" onclick="openProduct('Стильная сумка','4500','Сумка с удобным ремешком',['https://via.placeholder.com/300x300?text=Сумка1','https://via.placeholder.com/300x300?text=Сумка2','https://via.placeholder.com/300x300?text=Сумка3'])">
+            <img src="https://via.placeholder.com/200x200?text=Сумка" alt="Сумка">
+            <h3>Стильная сумка</h3>
+            <p>Цена: 4500₽</p>
+        </div>
+        <div class="product" data-category="clothes" onclick="openProduct('Куртка осенняя','6000','Легкая куртка на осень',['https://via.placeholder.com/300x300?text=Куртка1','https://via.placeholder.com/300x300?text=Куртка2'])">
+            <img src="https://via.placeholder.com/200x200?text=Куртка" alt="Куртка">
+            <h3>Куртка осенняя</h3>
+            <p>Цена: 6000₽</p>
+        </div>
+    </div>
+</section>
+
+<section id="cart">
+    <h2 style="text-align:center;">Корзина</h2>
+    <div class="cart" id="cart-items">
+        Пока корзина пуста.
+    </div>
+    <div class="checkout" id="checkout-form" style="display:none;">
+        <input type="text" placeholder="Ваше имя" id="customer-name" required>
+        <input type="email" placeholder="Ваш email" id="customer-email" required>
+        <input type="text" placeholder="Адрес доставки" id="customer-address" required>
+        <button onclick="checkout()">Оформить заказ</button>
+    </div>
+</section>
+
+<section id="product-page" class="product-page">
+    <button onclick="closeProduct()" style="margin-bottom:20px;">Назад к каталогу</button>
+    <div style="display:flex; flex-wrap:wrap;">
+        <div>
+            <img id="main-product-img" src="" alt="">
+            <div class="gallery" id="product-gallery"></div>
+        </div>
+        <div style="flex:1; margin-left:20px;">
+            <h2 id="product-name"></h2>
+            <p id="product-price"></p>
+            <p id="product-desc"></p>
+            <button id="add-to-cart-btn">Добавить в корзину</button>
+            <div class="reviews" id="product-reviews"></div>
+        </div>
+    </div>
+</section>
+
+<section id="contact">
+    <h2 style="text-align:center;">Свяжитесь с нами</h2>
+    <form class="contact-form" onsubmit="sendMessage(event)">
+        <input type="text" placeholder="Ваше имя" id="contact-name" required>
+        <input type="email" placeholder="Ваш email" id="contact-email" required>
+        <textarea placeholder="Сообщение" rows="5" id="contact-message" required></textarea>
+        <button type="submit">Отправить</button>
+    </form>
+</section>
+
+<footer>
+    © 2025 Магазин корейской одежды и сумок. Все права защищены.
+</footer>
+
+<script>
+let cart = [];
+let currentProduct = null;
+
+function filterCategory(category){
+    const products = document.querySelectorAll('.product');
+    products.forEach(p => {
+        if(category === 'all' || p.dataset.category === category){
+            p.style.display = 'block';
+        } else {
+            p.style.display = 'none';
+        }
+    });
+}
+
+function openProduct(name, price, desc, images){
+    currentProduct = {name, price};
+    document.getElementById('product-page').style.display = 'block';
+    document.getElementById('products-list').style.display = 'none';
+    document.getElementById('product-name').innerText = name;
+    document.getElementById('product-price').innerText = 'Цена: ' + price + '₽';
+    document.getElementById('product-desc').innerText = desc;
+    const mainImg = document.getElementById('main-product-img');
+    mainImg.src = images[0];
+    const gallery = document.getElementById('product-gallery');
+    gallery.innerHTML = '';
+    images.forEach((img, index) => {
+        const thumb = document.createElement('img');
+        thumb.src = img;
+        if(index===0) thumb.classList.add('active');
+        thumb.onclick = () => {
+            mainImg.src = img;
+            gallery.querySelectorAll('img').forEach(i => i.classList.remove('active'));
+            thumb.classList.add('active');
+        };
+        gallery.appendChild(thumb);
+    });
+    document.getElementById('add-to-cart-btn').onclick = () => addToCart(name, price);
+}
+
+function closeProduct(){
+    document.getElementById('product-page').style.display = 'none';
+    document.getElementById('products-list').style.display = 'flex';
+}
+
+function addToCart(name, price){
+    cart.push({name, price});
+    renderCart();
+}
+
+function renderCart(){
+    const cartDiv = document.getElementById('cart-items');
+    if(cart.length===0){
+        cartDiv.innerHTML = 'Пока корзина пуста.';
+        document.getElementById('checkout-form').style.display = 'none';
+        return;
+    }
+    cartDiv.innerHTML = '';
+    cart.forEach((item, index) => {
+        const div = document.createElement('div');
+        div.className = 'cart-item';
+        div.innerHTML = `<span>${item.name} - ${item.price}₽</span>
+                         <button onclick="removeFromCart(${index})">Удалить</button>`;
+        cartDiv.appendChild(div);
+    });
+    document.getElementById('checkout-form').style.display = 'flex';
+}
+
+function removeFromCart(index){
+    cart.splice(index,1);
+    renderCart();
+}
+
+function checkout(){
+    const name = document.getElementById('customer-name').value;
+    const email = document.getElementById('customer-email').value;
+    const address = document.getElementById('customer-address').value;
+    if(!name || !email || !address) { alert('Заполните все поля!'); return; }
+    alert('Спасибо за заказ, ' + name + '!\nСумма: ' + cart.reduce((a,b)=>a+b.price,0) + '₽');
+    cart = [];
+    renderCart();
+}
+
+function sendMessage(event){
+    event.preventDefault();
+    const name = document.getElementById('contact-name').value;
+    const email = document.getElementById('contact-email').value;
+    const message = document.getElementById('contact-message').value;
+    alert(`Сообщение отправлено!\nИмя: ${name}\nEmail: ${email}\nСообщение: ${message}`);
+    document.querySelector('.contact-form').reset();
+}
+</script>
+
+</body>
+  </html>
