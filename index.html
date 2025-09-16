@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>K-Vibe — Корейская одежда, сумки и косметика</title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="css/style.css" />
+
+  <!-- Firebase config (ES modules) -->
+  <script type="module" src="js/firebase-config.js"></script>
+
+  <!-- Главные модули (будут присланы далее) -->
+  <!-- catalog.js — загрузка категорий/товаров -->
+  <!-- auth.js — регистрация/вход, nav UI -->
+  <!-- cart.js — локальная корзина и PayPal интеграция -->
+  <!-- admin.js — панель администратора -->
+</head>
+<body>
+  <header class="topbar">
+    <div class="container topbar-row">
+      <a class="brand" href="/">K-Vibe</a>
+      <nav class="nav">
+        <a id="nav-home" href="/">Главная</a>
+        <a id="nav-login" href="login.html">Войти</a>
+        <a id="nav-cart" href="cart.html">Корзина (<span id="cartCount">0</span>)</a>
+        <a id="nav-admin" href="admin.html" class="hidden">Админ</a>
+      </nav>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="container hero-inner">
+      <div class="hero-left">
+        <h1>Корейская одежда, сумки и косметика</h1>
+        <p class="lead">Эксклюзивные луки, быстрая доставка и гарантированное качество.</p>
+        <a href="#catalog" class="button">Перейти к каталогу</a>
+      </div>
+      <div class="hero-right">
+        <!-- пример баннера/изображения -->
+        <img src="https://via.placeholder.com/520x320?text=K-Vibe" alt="K-Vibe banner" />
+      </div>
+    </div>
+  </section>
+
+  <main class="container main-grid" id="catalog">
+    <aside class="sidebar">
+      <h3>Категории</h3>
+      <div id="categoriesNav">
+        <!-- Категории загружаются через js/catalog.js -->
+        <p class="muted">Загрузка категорий...</p>
+      </div>
+
+      <h4>Фильтры</h4>
+      <div class="filters">
+        <label>Поиск:
+          <input id="searchInput" type="search" placeholder="по названию или описанию" />
+        </label>
+      </div>
+    </aside>
+
+    <section class="content">
+      <div class="toolbar">
+        <div class="toolbar-left">
+          <select id="sortSelect">
+            <option value="new">Сначала новые</option>
+            <option value="price_asc">Цена ↑</option>
+            <option value="price_desc">Цена ↓</option>
+          </select>
+        </div>
+        <div class="toolbar-right">
+          <input id="quickFilter" placeholder="Быстрый поиск..." />
+        </div>
+      </div>
+
+      <div id="productGrid" class="product-grid">
+        <!-- Продукты будут добавлены динамически js/catalog.js -->
+        <p class="muted">Загрузка товаров...</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <p>© K-Vibe — Все права защищены</p>
+      <p class="muted">Контакты: +7 (999) 123-45-67 · info@k-vibe.ru</p>
+    </div>
+  </footer>
+
+  <!-- Скрипты модулей подключаем внизу после DOM,
+       чтобы страницы, которые ещё не получили файлы, не ломались.
+       В следующих пакетах пришлю реальные файлы и ты их подключишь здесь. -->
+  <script>
+    // Локальный счётчик корзины (работает до подключения cart.js)
+    function updateCartCountUI() {
+      try {
+        const cart = JSON.parse(localStorage.getItem('kv_cart') || '[]');
+        const count = cart.reduce((s,i)=> s + (i.qty||1), 0);
+        document.getElementById('cartCount').innerText = count;
+      } catch(e) {
+        document.getElementById('cartCount').innerText = '0';
+      }
+    }
+    updateCartCountUI();
+    window.addEventListener('storage', updateCartCountUI);
+  </script>
+</body>
+</html>
