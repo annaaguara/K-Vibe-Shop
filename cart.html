@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Корзина — K-Vibe</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<header class="topbar">
+  <div class="container topbar-row">
+    <a class="brand" href="index.html">K-Vibe</a>
+    <nav class="nav">
+      <a href="index.html">Главная</a>
+      <a href="login.html">Войти</a>
+    </nav>
+  </div>
+</header>
+
+<main class="container">
+  <h2>Корзина</h2>
+  <div id="cartItems"></div>
+  <h3>Итого: <span id="cartTotal">0</span> ₽</h3>
+  <div id="paypal-button-container"></div>
+</main>
+
+<script src="https://www.paypal.com/sdk/js?client-id=YOUR_CLIENT_ID&currency=RUB"></script>
+<script type="module" src="js/cart.js"></script>
+</body>
+</html>
