@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>K-Vibe Shop</title>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+<script src="https://www.paypal.com/sdk/js?client-id=YOUR_CLIENT_ID&currency=USD"></script>
 <style>
 :root {
   --bg-light: #f8f8f8;
@@ -14,45 +15,50 @@
   --accent-light: #f8bbd0;
   --card-bg: #fff;
   --highlight: #ffe4f0;
+  --success: #4caf50;
 }
-* {margin:0; padding:0; box-sizing:border-box; font-family:'Poppins', sans-serif;}
+* {margin:0; padding:0; box-sizing:border-box; font-family:'Poppins',sans-serif;}
 body {display:flex; flex-direction:column; min-height:100vh; background:var(--bg-light); color:var(--text-dark);}
-header {background:var(--bg-pink); padding:1rem; display:flex; justify-content:space-between; align-items:center; box-shadow:0 2px 5px rgba(0,0,0,0.1);}
+header {background:var(--bg-pink); padding:1rem; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; box-shadow:0 2px 5px rgba(0,0,0,0.1);}
 header h1 {font-size:1.5rem; font-weight:700;}
-header nav button {margin-left:.5rem; padding:.5rem 1rem; border:none; border-radius:8px; background:var(--accent); color:white; cursor:pointer; transition:.3s;}
+header nav {display:flex; gap:.5rem; flex-wrap:wrap;}
+header nav button {padding:.5rem 1rem; border:none; border-radius:8px; background:var(--accent); color:white; cursor:pointer; transition:.3s;}
 header nav button:hover {background:#c2185b;}
-main {display:flex; flex:1;}
-aside {width:220px; background:#f1f1f1; padding:1rem; overflow-y:auto;}
+main {display:flex; flex:1; gap:1rem; padding:1rem;}
+aside {width:220px; background:#f1f1f1; padding:1rem; overflow-y:auto; border-radius:12px;}
 aside h2 {font-size:1.2rem; margin-bottom:.5rem;}
-.category, .subcategory {cursor:pointer; padding:.3rem 0; transition:.3s; display:flex; justify-content:space-between; align-items:center; border-radius:6px;}
+.category, .subcategory {cursor:pointer; padding:.4rem .5rem; display:flex; justify-content:space-between; align-items:center; border-radius:6px; transition:.3s;}
 .category:hover, .subcategory:hover {color:var(--accent); background:var(--accent-light);}
 .category.selected, .subcategory.selected {background:var(--highlight);}
 .delete-btn {background:red; color:white; border:none; padding:2px 5px; border-radius:4px; cursor:pointer; margin-left:.5rem;}
-section {flex:1; padding:1rem; display:grid; grid-template-columns:repeat(auto-fit, minmax(200px,1fr)); gap:1rem;}
-.product {background:var(--card-bg); border-radius:12px; padding:1rem; box-shadow:0 2px 5px rgba(0,0,0,0.1); display:flex; flex-direction:column; justify-content:space-between; transition:transform .2s; position:relative;}
-.product:hover {transform:scale(1.02);}
+section {flex:1; display:grid; grid-template-columns:repeat(auto-fit, minmax(180px,1fr)); gap:1rem;}
+.product {background:var(--card-bg); border-radius:12px; padding:1rem; box-shadow:0 2px 5px rgba(0,0,0,0.1); display:flex; flex-direction:column; justify-content:space-between; position:relative; transition:.2s;}
+.product:hover {transform:scale(1.03);}
 .product img {width:100%; border-radius:8px; margin-bottom:.5rem;}
-.product h3 {font-size:1rem; margin:.3rem 0;}
-.product p {font-size:.9rem; margin-bottom:.5rem;}
-.product button {padding:.5rem; border:none; border-radius:8px; background:var(--accent); color:white; cursor:pointer; transition:.3s;}
+.product input {margin:.2rem 0; padding:.3rem; border-radius:6px; border:1px solid #ccc; width:100%;}
+.product button {padding:.4rem; border:none; border-radius:8px; background:var(--accent); color:white; cursor:pointer; transition:.3s; margin-top:.2rem;}
 .product button:hover {background:#c2185b;}
-.product .delete-btn {position:absolute; top:5px; right:5px; background:red;}
-#cartModal, #authModal, #adminModal {position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); display:none; align-items:center; justify-content:center;}
-.modal-content {background:var(--card-bg); padding:1.5rem; border-radius:12px; width:90%; max-width:400px; max-height:80vh; overflow-y:auto;}
+#cartModal, #authModal, #adminModal {position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); display:none; align-items:center; justify-content:center; z-index:1000;}
+.modal-content {background:var(--card-bg); padding:1.5rem; border-radius:12px; width:90%; max-width:400px; max-height:80vh; overflow-y:auto; position:relative;}
 .modal-content h2 {margin-bottom:1rem;}
-.modal-content button {margin-top:1rem;}
 .cart-item {display:flex; justify-content:space-between; margin-bottom:.3rem; align-items:center;}
 .cart-item button {background:red; color:white; border:none; padding:2px 5px; border-radius:4px; cursor:pointer;}
-@media(max-width:768px){main{flex-direction:column;} aside{width:100%; order:1;} section{order:2;}}
+#notification {position:fixed; top:10px; right:10px; background:var(--success); color:white; padding:.5rem 1rem; border-radius:8px; display:none; z-index:2000;}
+@media(max-width:768px){
+  main{flex-direction:column;}
+  aside{width:100%; order:1; margin-bottom:1rem;}
+  section{order:2;}
+  header nav{flex-direction:column; gap:.3rem;}
+}
 </style>
 </head>
 <body>
 <header>
   <h1>K-Vibe Shop</h1>
   <nav>
-    <button onclick="openModal('authModal')">Вход / Регистрация</button>
     <button onclick="openModal('cartModal')">Корзина</button>
-    <button onclick="openModal('adminModal')">Админ</button>
+    <button onclick="openModal('authModal')">Вход / Регистрация</button>
+    <button onclick="openAdmin()">Админ</button>
   </nav>
 </header>
 
@@ -64,132 +70,165 @@ section {flex:1; padding:1rem; display:grid; grid-template-columns:repeat(auto-f
   <section id="products"></section>
 </main>
 
+<div id="notification"></div>
+
+<!-- Корзина -->
 <div id="cartModal">
   <div class="modal-content">
     <h2>Корзина</h2>
     <div id="cartItems"></div>
     <p id="cartTotal"></p>
+    <div id="paypal-button-container"></div>
     <button onclick="closeModal('cartModal')">Закрыть</button>
   </div>
 </div>
 
+<!-- Вход/Регистрация -->
 <div id="authModal">
   <div class="modal-content">
     <h2>Вход / Регистрация</h2>
-    <input type="text" id="username" placeholder="Имя" style="width:100%;margin:.3rem 0;padding:.5rem;">
-    <input type="password" id="password" placeholder="Пароль" style="width:100%;margin:.3rem 0;padding:.5rem;">
+    <input type="text" id="username" placeholder="Имя">
+    <input type="password" id="password" placeholder="Пароль">
     <button onclick="register()">Регистрация</button>
     <button onclick="login()">Вход</button>
     <button onclick="closeModal('authModal')">Закрыть</button>
   </div>
 </div>
 
+<!-- Админка -->
 <div id="adminModal">
   <div class="modal-content">
     <h2>Админ панель</h2>
     <h3>Добавить категорию</h3>
-    <input type="text" id="newCategory" placeholder="Название категории" style="width:100%;margin:.3rem 0;padding:.5rem;">
+    <input type="text" id="newCategory" placeholder="Название категории">
     <button onclick="addCategory()">Добавить</button>
     <h3>Добавить товар</h3>
-    <input type="text" id="productName" placeholder="Название" style="width:100%;margin:.3rem 0;padding:.5rem;">
-    <input type="text" id="productPrice" placeholder="Цена" style="width:100%;margin:.3rem 0;padding:.5rem;">
-    <input type="text" id="productImg" placeholder="Ссылка на фото" style="width:100%;margin:.3rem 0;padding:.5rem;">
-    <input type="text" id="productCategory" placeholder="Категория" style="width:100%;margin:.3rem 0;padding:.5rem;">
-    <input type="text" id="productSubcategory" placeholder="Подкатегория (необязательно)" style="width:100%;margin:.3rem 0;padding:.5rem;">
+    <input type="text" id="productName" placeholder="Название">
+    <input type="text" id="productPrice" placeholder="Цена">
+    <input type="text" id="productImg" placeholder="Ссылка на фото">
+    <input type="text" id="productCategory" placeholder="Категория">
+    <input type="text" id="productSubcategory" placeholder="Подкатегория (необязательно)">
     <button onclick="addProduct()">Добавить товар</button>
     <button onclick="closeModal('adminModal')">Закрыть</button>
   </div>
 </div>
 
 <script>
+// ===== Данные =====
 let categories = JSON.parse(localStorage.getItem('categories')) || {
-  "Косметика": ["Сэты", "Крема", "Солнцезащитные крема"],
-  "Сумки": [],
-  "Одежда": ["Худи", "Футболки"]
+  "Косметика":["Сэты","Крема","Солнцезащитные крема"],
+  "Сумки":[],
+  "Одежда":["Худи","Футболки"]
 };
 let products = JSON.parse(localStorage.getItem('products')) || [
   {name:"Крем", price:500, img:"https://via.placeholder.com/200", category:"Косметика", subcategory:"Крема"},
-  {name:"Худи", price:1500, img:"https://via.placeholder.com/200", category:"Одежда", subcategory:"Худи"},
+  {name:"Худи", price:1500, img:"https://via.placeholder.com/200", category:"Одежда", subcategory:"Худи"}
 ];
-let cart = [];
-let currentCategory = Object.keys(categories)[0] || "";
-let currentSubcategory = null;
+let cart = [], currentCategory = Object.keys(categories)[0], currentSubcategory = null;
+let users = JSON.parse(localStorage.getItem('users')) || [], currentUser = JSON.parse(localStorage.getItem('currentUser')) || null;
 
-function saveData(){ 
-  localStorage.setItem('categories', JSON.stringify(categories));
-  localStorage.setItem('products', JSON.stringify(products));
+// ===== Сохранение данных =====
+function saveData(){ localStorage.setItem('categories', JSON.stringify(categories)); localStorage.setItem('products', JSON.stringify(products)); }
+function saveUsers(){ localStorage.setItem('users', JSON.stringify(users)); }
+function saveCurrentUser(){ localStorage.setItem('currentUser', JSON.stringify(currentUser)); }
+
+// ===== Модальные окна =====
+function openModal(id){ document.getElementById(id).style.display="flex"; }
+function closeModal(id){ document.getElementById(id).style.display="none"; }
+
+// ===== Уведомление =====
+function notify(msg){
+  let n = document.getElementById('notification');
+  n.textContent=msg;
+  n.style.display="block";
+  setTimeout(()=>n.style.display="none",2000);
 }
 
+// ===== Категории =====
 function renderCategories(){
-  let catDiv = document.getElementById("categories");
-  catDiv.innerHTML = "";
+  let catDiv = document.getElementById("categories"); catDiv.innerHTML="";
   for(let cat in categories){
-    let c = document.createElement("div");
-    c.className = "category" + (currentCategory===cat && !currentSubcategory ? " selected" : "");
-    c.textContent = cat;
-
-    let delBtn = document.createElement("button");
-    delBtn.className = "delete-btn";
-    delBtn.textContent = "X";
-    delBtn.onclick = (e)=>{
-      e.stopPropagation();
-      deleteCategory(cat);
-    };
+    let c = document.createElement("div"); c.className="category"+(currentCategory===cat&&!currentSubcategory?" selected":""); c.textContent=cat;
+    let delBtn = document.createElement("button"); delBtn.className="delete-btn"; delBtn.textContent="X";
+    delBtn.onclick = e=>{ e.stopPropagation(); deleteCategory(cat); }
     c.appendChild(delBtn);
-
-    c.onclick = ()=>{
-      currentCategory=cat; currentSubcategory=null;
-      renderCategories();
-      renderProducts(cat);
-    };
+    c.onclick = ()=>{currentCategory=cat; currentSubcategory=null; renderCategories(); renderProducts();}
     catDiv.appendChild(c);
-
     categories[cat].forEach(sub=>{
-      let s = document.createElement("div");
-      s.className = "subcategory" + (currentSubcategory===sub ? " selected" : "");
-      s.textContent = "— "+sub;
-      s.style.marginLeft="1rem";
-
-      let delSub = document.createElement("button");
-      delSub.className="delete-btn";
-      delSub.textContent="X";
-      delSub.onclick=(e)=>{
-        e.stopPropagation();
-        deleteSubcategory(cat, sub);
-      }
+      let s = document.createElement("div"); s.className="subcategory"+(currentSubcategory===sub?" selected":"");
+      s.style.marginLeft="1rem"; s.textContent="— "+sub;
+      let delSub = document.createElement("button"); delSub.className="delete-btn"; delSub.textContent="X";
+      delSub.onclick = e=>{ e.stopPropagation(); deleteSubcategory(cat, sub);}
       s.appendChild(delSub);
-
-      s.onclick = ()=>{
-        currentCategory=cat; currentSubcategory=sub;
-        renderCategories();
-        renderProducts(cat, sub);
-      };
+      s.onclick = ()=>{currentCategory=cat; currentSubcategory=sub; renderCategories(); renderProducts();}
       catDiv.appendChild(s);
     });
   }
 }
 
-function renderProducts(cat, sub=null){
-  let prodDiv=document.getElementById("products");
-  prodDiv.innerHTML="";
-  let filtered = products.filter(p=>{
-    if(sub) return p.category===cat && p.subcategory===sub;
-    return p.category===cat;
-  });
-  if(filtered.length===0){
-    prodDiv.innerHTML="<p>Товаров нет</p>";
-  }
+function addCategory(){ let val=document.getElementById("newCategory").value.trim(); if(val && !categories[val]){ categories[val]=[]; saveData(); renderCategories(); document.getElementById("newCategory").value=""; notify('Категория добавлена'); } }
+function deleteCategory(cat){ if(confirm("Удалить категорию?")){ delete categories[cat]; saveData(); currentCategory=Object.keys(categories)[0]||null; renderCategories(); renderProducts(); notify('Категория удалена'); }}
+function deleteSubcategory(cat, sub){ if(confirm("Удалить подкатегорию?")){ categories[cat]=categories[cat].filter(s=>s!==sub); saveData(); renderCategories(); renderProducts(); notify('Подкатегория удалена'); } }
+
+// ===== Товары =====
+function renderProducts(){
+  let prodDiv=document.getElementById("products"); prodDiv.innerHTML="";
+  let filtered = products.filter(p=>currentSubcategory?p.category===currentCategory&&p.subcategory===currentSubcategory:p.category===currentCategory);
+  if(filtered.length===0){ prodDiv.innerHTML="<p>Товаров нет</p>"; return; }
   filtered.forEach((p,i)=>{
-    let card=document.createElement("div");
-    card.className="product";
+    let card=document.createElement("div"); card.className="product";
     card.innerHTML=`
       <img src="${p.img}" alt="${p.name}">
-      <h3>${p.name}</h3>
-      <p>${p.price}₩</p>
-      <button onclick="addToCart('${p.name}')">В корзину</button>
+      <input value="${p.name}" id="name-${i}" placeholder="Название">
+      <input value="${p.price}" id="price-${i}" placeholder="Цена">
+      <input value="${p.img}" id="img-${i}" placeholder="Ссылка на картинку">
+      <button onclick="saveProduct(${i})">Сохранить</button>
+      <button onclick="addToCart(${i})">В корзину</button>
+      <button onclick="deleteProduct(${i})">Удалить</button>
     `;
+    prodDiv.appendChild(card);
+  });
+}
 
-    let delBtn = document.createElement("button");
-    delBtn.className = "delete-btn";
-    delBtn.textContent = "X";
-    delBtn.onclick = ()=>{deleteProduct
+function saveProduct(i){ let p=products[i]; let name=document.getElementById(`name-${i}`).value.trim(); let price=parseFloat(document.getElementById(`price-${i}`).value); let img=document.getElementById(`img-${i}`).value.trim(); if(name)p.name=name; if(!isNaN(price))p.price=price; if(img)p.img=img; saveData(); renderProducts(); notify('Товар обновлен'); }
+function deleteProduct(i){ if(confirm("Удалить товар?")){ products.splice(i,1); saveData(); renderProducts(); notify('Товар удален'); } }
+function addProduct(){ let name=document.getElementById("productName").value.trim(); let price=parseFloat(document.getElementById("productPrice").value); let img=document.getElementById("productImg").value.trim(); let cat=document.getElementById("productCategory").value.trim(); let sub=document.getElementById("productSubcategory").value.trim(); if(name && !isNaN(price) && img && cat){ if(!categories[cat]) categories[cat]=[]; products.push({name,price,img,category:cat,subcategory:sub||""}); saveData(); renderProducts(); notify('Товар добавлен'); } }
+
+// ===== Корзина =====
+function addToCart(i){ cart.push(products[i]); renderCart(); notify('Товар добавлен в корзину'); }
+function renderCart(){ 
+  let container=document.getElementById("cartItems"); container.innerHTML=""; 
+  let total=0; 
+  cart.forEach((p,i)=>{ 
+    let div=document.createElement("div"); div.className="cart-item"; 
+    div.innerHTML=`${p.name} - ${p.price}₩ <button onclick="removeFromCart(${i})">X</button>`; 
+    container.appendChild(div); 
+    total+=p.price; 
+  }); 
+  document.getElementById("cartTotal").textContent="Итого: "+total+"₩"; 
+  if(cart.length>0) renderPayPalButton(total); else document.getElementById('paypal-button-container').innerHTML='';
+}
+function removeFromCart(i){ cart.splice(i,1); renderCart(); notify('Товар удален из корзины'); }
+
+// ===== PayPal =====
+function renderPayPalButton(totalAmount){
+  document.getElementById('paypal-button-container').innerHTML="";
+  paypal.Buttons({
+    createOrder: function(data, actions){ return actions.order.create({ purchase_units:[{ amount:{ value:totalAmount.toFixed(2) } }] }); },
+    onApprove: function(data, actions){ return actions.order.capture().then(function(details){ alert('Оплата успешна! Спасибо, '+details.payer.name.given_name); cart=[]; renderCart(); closeModal('cartModal'); }); },
+    onError: function(err){ alert('Ошибка при оплате: '+err); }
+  }).render('#paypal-button-container');
+}
+
+// ===== Регистрация / Вход =====
+function register(){ let u=document.getElementById("username").value.trim(); let p=document.getElementById("password").value; if(!u||!p){ alert("Заполните имя и пароль"); return; } if(users.find(user=>user.username===u)){ alert("Пользователь уже существует"); return; } users.push({username:u,password:p}); saveUsers(); notify('Регистрация успешна'); }
+function login(){ let u=document.getElementById("username").value.trim(); let p=document.getElementById("password").value; let user=users.find(user=>user.username===u&&user.password===p); if(user){ currentUser=user; saveCurrentUser(); notify('Вход успешен'); closeModal('authModal'); } else{ alert("Неверные данные"); } }
+
+// ===== Админка =====
+function openAdmin(){ openModal('adminModal'); }
+
+// ===== Инициализация =====
+renderCategories(); renderProducts(); renderCart();
+</script>
+</body>
+</html>
