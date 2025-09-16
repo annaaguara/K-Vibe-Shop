@@ -89,9 +89,11 @@ section {flex:1; display:grid; grid-template-columns:repeat(auto-fit, minmax(180
     <h2>Вход / Регистрация</h2>
     <input type="text" id="username" placeholder="Имя">
     <input type="password" id="password" placeholder="Пароль">
-    <button onclick="register()">Регистрация</button>
-    <button onclick="login()">Вход</button>
-    <button onclick="closeModal('authModal')">Закрыть</button>
+    <div style="display:flex; gap:5px; margin-top:5px;">
+      <button id="registerBtn">Регистрация</button>
+      <button id="loginBtn">Вход</button>
+    </div>
+    <button onclick="closeModal('authModal')" style="margin-top:10px;">Закрыть</button>
   </div>
 </div>
 
@@ -220,9 +222,32 @@ function renderPayPalButton(totalAmount){
   }).render('#paypal-button-container');
 }
 
-// ===== Регистрация / Вход =====
-function register(){ let u=document.getElementById("username").value.trim(); let p=document.getElementById("password").value; if(!u||!p){ alert("Заполните имя и пароль"); return; } if(users.find(user=>user.username===u)){ alert("Пользователь уже существует"); return; } users.push({username:u,password:p}); saveUsers(); notify('Регистрация успешна'); }
-function login(){ let u=document.getElementById("username").value.trim(); let p=document.getElementById("password").value; let user=users.find(user=>user.username===u&&user.password===p); if(user){ currentUser=user; saveCurrentUser(); notify('Вход успешен'); closeModal('authModal'); } else{ alert("Неверные данные"); } }
+// ===== Регистрация / Вход (исправлено) =====
+document.getElementById('registerBtn').addEventListener('click', ()=>{
+  let u=document.getElementById("username").value.trim();
+  let p=document.getElementById("password").value;
+  if(!u||!p){ alert("Заполните имя и пароль"); return; }
+  if(users.find(user=>user.username===u)){ alert("Пользователь уже существует"); return; }
+  users.push({username:u,password:p});
+  saveUsers();
+  notify('Регистрация успешна');
+  document.getElementById("username").value = "";
+  document.getElementById("password").value = "";
+});
+
+document.getElementById('loginBtn').addEventListener('click', ()=>{
+  let u=document.getElementById("username").value.trim();
+  let p=document.getElementById("password").value;
+  let user=users.find(user=>user.username===u && user.password===p);
+  if(user){
+    currentUser=user;
+    saveCurrentUser();
+    notify('Вход успешен');
+    closeModal('authModal');
+  } else {
+    alert("Неверные данные");
+  }
+});
 
 // ===== Админка =====
 function openAdmin(){ openModal('adminModal'); }
