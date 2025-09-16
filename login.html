@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Вход / Регистрация — K-Vibe</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<header class="topbar">
+  <div class="container topbar-row">
+    <a class="brand" href="index.html">K-Vibe</a>
+    <nav class="nav">
+      <a href="index.html">Главная</a>
+      <a href="cart.html">Корзина</a>
+    </nav>
+  </div>
+</header>
+
+<main class="container">
+  <div class="auth-card">
+    <h2>Войти</h2>
+    <input id="loginEmail" type="email" placeholder="Email">
+    <input id="loginPassword" type="password" placeholder="Пароль">
+    <button id="loginBtn">Войти</button>
+
+    <h2>Регистрация</h2>
+    <input id="regEmail" type="email" placeholder="Email">
+    <input id="regPassword" type="password" placeholder="Пароль">
+    <button id="regBtn">Зарегистрироваться</button>
+
+    <p id="authMessage" class="muted"></p>
+  </div>
+</main>
+<script type="module" src="js/auth.js"></script>
+</body>
+</html>
